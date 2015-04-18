@@ -4,6 +4,14 @@ package dcode.games.uEngine2.games.ld32;
  * Created by dusakus on 10.04.15.
  */
 public class InHandler extends dcode.games.uEngine2.PInputHandler {
+
+    public static InHandler instance;
+
+    public InHandler(){
+        instance = this;
+    }
+
+
     @Override
     public void keyTyped(char Char) {
 

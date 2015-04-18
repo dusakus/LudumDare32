@@ -103,19 +103,26 @@ public class TexMan {
 					tex = stringBuffer[i].texture;
 					if (tex == null) {
 						StData.LOG.println("STRINGBUFFER" + i + " broken", "E1");
+						StData.generalBGT.LPTasks.add(new prepareString(stringBuffer[i]));
+						return MISSINGTEX;
+					} else {
+						return tex;
 					}
 				}
 			}
 
 		}
-
-		if (tex == null) {
-			tex = stringBuffer[nextSBwriteAt].texture;
-			stringBuffer[nextSBwriteAt].texKey = key;
-			stringBuffer[nextSBwriteAt].text = content;
-			StData.threadManager.BGT.addTask(new prepareString(stringBuffer[nextSBwriteAt]));
-			tex = MISSINGTEX;
+		stringBuffer[nextSBwriteAt].texKey = key;
+		stringBuffer[nextSBwriteAt].text = content;
+		stringBuffer[nextSBwriteAt].texture = MISSINGTEX;
+		StData.generalBGT.LPTasks.add(new prepareString(stringBuffer[nextSBwriteAt]));
+		tex = MISSINGTEX;
+		nextSTBwriteAt++;
+		if (nextSTBwriteAt == StData.setup.stringBufferSize) {
+			nextSTBwriteAt = 0;
+			StData.LOG.println("WARNING: [Texture Manager] Ran out of string buffer, text might get bugged", "N");
 		}
+
 
 		return tex;
 	}
@@ -131,7 +138,6 @@ public class TexMan {
 					return scaledTextureBuffer[i].texture;
 				}
 			}
-
 		}
 		scaledTextureBuffer[nextSTBwriteAt].height = height;
 		scaledTextureBuffer[nextSTBwriteAt].width = width;

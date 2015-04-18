@@ -11,7 +11,7 @@ public class LD32_INIT {
 		gs.FPS = 30;
 		gs.TPS_logic = 60;
 		gs.TPS_MSX = 0;
-		gs.TPS_BG = 10;
+		gs.TPS_BG = 60;
 
 		gs.debug = true;
 		gs.width = 400;
