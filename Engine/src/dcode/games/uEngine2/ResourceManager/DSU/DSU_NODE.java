@@ -13,10 +13,10 @@ import dcode.games.uEngine2.StData;
  */
 public class DSU_NODE {
 
-    int level = -1;
     public DSU_NODE_SUBSTOR SS;
     public DSU_NODE[] NODE_ARRAY;
     public DSU_OBJECT finalKey;
+    int level = -1;
     private boolean optimizationRequested = false;
 
     public DSU_NODE(int level, boolean extend) {
@@ -24,7 +24,7 @@ public class DSU_NODE {
         NODE_ARRAY = new DSU_NODE[128];
         if (extend) {
             for (int i = 0; i < NODE_ARRAY.length; i++) {
-                NODE_ARRAY[i] = new DSU_NODE(level+1, level < 3);
+                NODE_ARRAY[i] = new DSU_NODE(level + 1, level < 3);
             }
         } else {
             for (int i = 0; i < NODE_ARRAY.length; i++) {
@@ -73,7 +73,7 @@ public class DSU_NODE {
             finalKey = ob;
         } else {
             if (NODE_ARRAY[ob.KEY.charAt(level) - 32] == null) {
-                NODE_ARRAY[ob.KEY.charAt(level) - 32] = new DSU_NODE(level+1, false);
+                NODE_ARRAY[ob.KEY.charAt(level) - 32] = new DSU_NODE(level + 1, false);
             }
             NODE_ARRAY[ob.KEY.charAt(level) - 32].storeObject(ob);
         }

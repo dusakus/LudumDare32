@@ -16,23 +16,23 @@ import java.awt.*;
  */
 public class prepareScaledTexture extends PBGTask {
 
-	TexMan.ScaledTexture stb;
+    TexMan.ScaledTexture stb;
 
-	public prepareScaledTexture(TexMan.ScaledTexture scaledTextureBuffer) {
-		stb = scaledTextureBuffer;
-		this.TaskPriority = PRIORITY_LOW;
-	}
+    public prepareScaledTexture(TexMan.ScaledTexture scaledTextureBuffer) {
+        stb = scaledTextureBuffer;
+        this.TaskPriority = PRIORITY_LOW;
+    }
 
 
-	@Override
-	public boolean isReady() {
-		return stb.key.equalsIgnoreCase("missing") || !(StData.resources.grf.getTexture(stb.key) == StData.resources.grf.getTexture("missing"));
-	}
+    @Override
+    public boolean isReady() {
+        return stb.key.equalsIgnoreCase("missing") || !(StData.resources.grf.getTexture(stb.key) == StData.resources.grf.getTexture("missing"));
+    }
 
-	@Override
-	public void perform() {
-		stb.texture = StData.resources.grf.getTexture(stb.key).getScaledInstance(stb.width, stb.height, Image.SCALE_REPLICATE);
-		done = true;
-	}
+    @Override
+    public void perform() {
+        stb.texture = StData.resources.grf.getTexture(stb.key).getScaledInstance(stb.width, stb.height, Image.SCALE_REPLICATE);
+        done = true;
+    }
 
 }

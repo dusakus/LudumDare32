@@ -10,7 +10,7 @@ package dcode.games.uEngine2;
  */
 public class PuGameBase {
 
-	public uGameSetup setup;
-	public PInputHandler initialInputHandler;
-	public PuGameLoader contentInitializer;
+    public uGameSetup setup;
+    public PInputHandler initialInputHandler;
+    public PuGameLoader contentInitializer;
 }

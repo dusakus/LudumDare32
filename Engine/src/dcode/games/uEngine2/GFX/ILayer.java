@@ -12,9 +12,9 @@ import java.awt.*;
  * @author dusakus
  */
 public interface ILayer {
-	public void draw(Graphics2D G2D);
+    void draw(Graphics2D G2D);
 
-	public boolean removeMe();
+    boolean removeMe();
 
-	public boolean renderMe();
+    boolean renderMe();
 }

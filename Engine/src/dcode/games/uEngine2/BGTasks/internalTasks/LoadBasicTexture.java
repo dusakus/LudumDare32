@@ -13,28 +13,25 @@ import dcode.games.uEngine2.StData;
  */
 public class LoadBasicTexture extends PBGTask {
 
-	private String texKey = "UNKNOWN";
-	private String addr = "missing";
+    private String texKey = "UNKNOWN";
+    private String addr = "missing";
 
-	public LoadBasicTexture(String location, String key) {
-		this.TaskPriority = PRIORITY_LOW;
-		texKey = key;
-		addr = location;
-	}
+    public LoadBasicTexture(String location, String key) {
+        this.TaskPriority = PRIORITY_LOW;
+        texKey = key;
+        addr = location;
+    }
 
-	@Override
-	public boolean isReady() {
-		if (StData.resources.grf.loader_internal == null) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean isReady() {
+        return StData.resources.grf.loader_internal != null;
+    }
 
-	@Override
-	public void perform() {
-		StData.LOG.println("BGTask LBT: trying to load texture from: " + addr, "D");
-		StData.resources.grf.loader_internal.loadSingleTexture(addr, texKey);
-		done = true;
-	}
+    @Override
+    public void perform() {
+        StData.LOG.println("BGTask LBT: trying to load texture from: " + addr, "D");
+        StData.resources.grf.loader_internal.loadSingleTexture(addr, texKey);
+        done = true;
+    }
 
 }

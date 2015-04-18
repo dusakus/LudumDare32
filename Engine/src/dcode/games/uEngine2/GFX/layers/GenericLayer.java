@@ -14,19 +14,19 @@ import java.awt.*;
  */
 public class GenericLayer implements ILayer {
 
-	@Override
-	public void draw(Graphics2D G2D) {
+    @Override
+    public void draw(Graphics2D G2D) {
 
-	}
+    }
 
-	@Override
-	public boolean removeMe() {
-		return true;
-	}
+    @Override
+    public boolean removeMe() {
+        return true;
+    }
 
-	@Override
-	public boolean renderMe() {
-		return false;
-	}
+    @Override
+    public boolean renderMe() {
+        return false;
+    }
 
 }

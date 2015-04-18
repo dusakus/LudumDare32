@@ -16,43 +16,43 @@ import java.awt.event.MouseListener;
  */
 public class PointerWrapper implements MouseListener {
 
-	private PInputHandler PIH;
+    private PInputHandler PIH;
 
-	public void setInputHandler(PInputHandler pih) {
-		PIH = pih;
-	}
+    public void setInputHandler(PInputHandler pih) {
+        PIH = pih;
+    }
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (PIH != null) {
-			switch (e.getButton()) {
-				case 1:
-					PIH.clickedLeft(e.getX() / StData.setup.scale, e.getY() / StData.setup.scale);
-					break;
-				case 3:
-					PIH.clickedRight(e.getX() / StData.setup.scale, e.getY() / StData.setup.scale);
-					break;
-				case 2:
-					PIH.clickedMiddle(e.getX() / StData.setup.scale, e.getY() / StData.setup.scale);
-					break;
-			}
-		}
-	}
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (PIH != null) {
+            switch (e.getButton()) {
+                case 1:
+                    PIH.clickedLeft(e.getX() / StData.setup.scale, e.getY() / StData.setup.scale);
+                    break;
+                case 3:
+                    PIH.clickedRight(e.getX() / StData.setup.scale, e.getY() / StData.setup.scale);
+                    break;
+                case 2:
+                    PIH.clickedMiddle(e.getX() / StData.setup.scale, e.getY() / StData.setup.scale);
+                    break;
+            }
+        }
+    }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 
 }

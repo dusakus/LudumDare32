@@ -7,22 +7,22 @@ import dcode.games.uEngine2.games.ld32.world.PlayerItem;
  */
 public class ItemList {
 
-	private static PlayerItem[] itemList = new PlayerItem[64];
+    private static PlayerItem[] itemList = new PlayerItem[64];
 
 
-	public static void fillList() {
+    public static void fillList() {
 
-	}
+    }
 
-	public static PlayerItem getItem(int id) {
-		return itemList[id];
-	}
+    public static PlayerItem getItem(int id) {
+        return itemList[id];
+    }
 
-	public static boolean itemExists(int id) {
-		return itemList[id] != null;
-	}
+    public static boolean itemExists(int id) {
+        return itemList[id] != null;
+    }
 
-	public static int getSize() {
-		return itemList.length;
-	}
+    public static int getSize() {
+        return itemList.length;
+    }
 }

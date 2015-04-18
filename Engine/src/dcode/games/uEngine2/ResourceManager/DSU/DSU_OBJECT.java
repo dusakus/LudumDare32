@@ -9,11 +9,11 @@ package dcode.games.uEngine2.ResourceManager.DSU;
  * @author dusakus
  */
 public class DSU_OBJECT {
-	String KEY;
-	Object OBJ;
+    String KEY;
+    Object OBJ;
 
-	public DSU_OBJECT(String identifier, Object OB) {
-		KEY = identifier;
-		OBJ = OB;
-	}
+    public DSU_OBJECT(String identifier, Object OB) {
+        KEY = identifier;
+        OBJ = OB;
+    }
 }

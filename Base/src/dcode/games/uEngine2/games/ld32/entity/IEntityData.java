@@ -6,8 +6,11 @@ import java.awt.*;
  * Created by dusakus on 18.04.15.
  */
 public interface IEntityData {
-	int getType();
-	Point getInitialLocation();
-	String getTextureId();
-	int getDepth();
+    int getType();
+
+    Point getInitialLocation();
+
+    String getTextureId();
+
+    int getDepth();
 }

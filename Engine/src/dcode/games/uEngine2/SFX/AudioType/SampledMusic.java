@@ -6,19 +6,16 @@ import dcode.games.uEngine2.StData;
  * Created by dusakus on 13.04.15.
  */
 public class SampledMusic {
-    String msPlayerID;
-
     public boolean isPlaying = false;
-    private boolean wasPlaying = false;
     public boolean isStopped = false;
-    private boolean wasStopped = false;
     public boolean isLooped = false;
-    private boolean wasLooped = false;
-
     public float volume = 1;
-    private float density = -1;      //Because reasons
     public float pan = 0;
-
+    String msPlayerID;
+    private boolean wasPlaying = false;
+    private boolean wasStopped = false;
+    private boolean wasLooped = false;
+    private float density = -1;      //Because reasons
 
     //Check if changed, and update backend if needed
     public void updateStatus() {

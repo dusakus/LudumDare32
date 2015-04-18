@@ -17,31 +17,31 @@ import java.awt.image.BufferedImage;
  */
 public class prepareString extends PBGTask {
 
-	private TexMan.StringContainer container = null;
+    private TexMan.StringContainer container = null;
 
-	public prepareString(TexMan.StringContainer stringBuffer) {
-		StData.LOG.println("Requested creation of string buffer for " + stringBuffer.text + " using font " + stringBuffer.texKey);
-		container = stringBuffer;
-		this.TaskPriority = PRIORITY_LOW;
-	}
+    public prepareString(TexMan.StringContainer stringBuffer) {
+        StData.LOG.println("Requested creation of string buffer for " + stringBuffer.text + " using font " + stringBuffer.texKey);
+        container = stringBuffer;
+        this.TaskPriority = PRIORITY_LOW;
+    }
 
-	@Override
-	public boolean isReady() {
-		//StData.LOG.println("STILL WAITING");
-		return StData.resources.grf.isTextureAviable(container.texKey);
-	}
+    @Override
+    public boolean isReady() {
+        //StData.LOG.println("STILL WAITING");
+        return StData.resources.grf.isTextureAviable(container.texKey);
+    }
 
-	@Override
-	public void perform() {
-		BufferedImage sizecheck = StData.resources.grf.getChar(container.texKey, 'A');
-		int charWidth = sizecheck.getWidth();
-		BufferedImage out = new BufferedImage((container.text.length() + 1) * charWidth, sizecheck.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2d = out.createGraphics();
-		for (int i = 0; i < container.text.length(); i++) {
-			g2d.drawImage(StData.resources.grf.getChar(container.texKey, container.text.charAt(i)), charWidth * i, 0, null);
-		}
-		g2d.dispose();
-		container.texture = out;
-	}
+    @Override
+    public void perform() {
+        BufferedImage sizecheck = StData.resources.grf.getChar(container.texKey, 'A');
+        int charWidth = sizecheck.getWidth();
+        BufferedImage out = new BufferedImage((container.text.length() + 1) * charWidth, sizecheck.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = out.createGraphics();
+        for (int i = 0; i < container.text.length(); i++) {
+            g2d.drawImage(StData.resources.grf.getChar(container.texKey, container.text.charAt(i)), charWidth * i, 0, null);
+        }
+        g2d.dispose();
+        container.texture = out;
+    }
 
 }

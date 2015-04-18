@@ -1,6 +1,5 @@
 package dcode.games.uEngine2.GFX.postproc;
 
-import dcode.games.uEngine2.StData;
 import sun.awt.image.ToolkitImage;
 
 import java.awt.*;

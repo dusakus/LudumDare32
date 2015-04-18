@@ -9,11 +9,11 @@ import java.awt.*;
  */
 public abstract class PWorld {
 
-	public abstract String getTexID();
+    public abstract String getTexID();
 
-	public abstract void loadYerself(GameWorld target); //Load the world into world container
+    public abstract void loadYerself(GameWorld target); //Load the world into world container
 
-	public abstract boolean checkUnlocked(int RColor);
+    public abstract boolean checkUnlocked(int RColor);
 
-	public abstract void triggerEvent(Color data);
+    public abstract void triggerEvent(Color data);
 }

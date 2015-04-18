@@ -12,23 +12,23 @@ import java.awt.*;
  */
 class nullSprite extends Sprite {
 
-	public nullSprite() {
-		this.textureKey = "-1";
-	}
+    public nullSprite() {
+        this.textureKey = "-1";
+    }
 
-	@Override
-	public Image getCustomTexture() {
-		return null;
-	}
+    @Override
+    public Image getCustomTexture() {
+        return null;
+    }
 
-	@Override
-	public boolean doCustomRender() {
-		return false;
-	}
+    @Override
+    public boolean doCustomRender() {
+        return false;
+    }
 
-	@Override
-	public void customRender(Graphics2D G) {
+    @Override
+    public void customRender(Graphics2D G) {
 
-	}
+    }
 
 }

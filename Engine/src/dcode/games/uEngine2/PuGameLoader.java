@@ -9,8 +9,9 @@ package dcode.games.uEngine2;
  * @author dusakus
  */
 public abstract class PuGameLoader {
-	public abstract void loadInitialGameContent();
-	public void engineStopped(){
-		System.exit(0);
-	}
+    public abstract void loadInitialGameContent();
+
+    public void engineStopped() {
+        System.exit(0);
+    }
 }

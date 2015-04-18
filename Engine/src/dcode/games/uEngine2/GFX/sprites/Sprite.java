@@ -11,44 +11,44 @@ import java.awt.*;
  * @author dusakus
  */
 public abstract class Sprite {
-	protected int x = -100, y = -100, z = 0;
-	protected String textureKey;
+    protected int x = -100, y = -100, z = 0;
+    protected String textureKey;
 
-	//return coordinates
-	public int getX() {
-		return x;
-	}
+    //return coordinates
+    public int getX() {
+        return x;
+    }
 
-	public void setX(int nx) {
-		x = nx;
-	}
+    public void setX(int nx) {
+        x = nx;
+    }
 
-	public int getY() {
-		return y;
-	}
+    public int getY() {
+        return y;
+    }
 
-	public void setY(int ny) {
-		y = ny;
-	}
+    public void setY(int ny) {
+        y = ny;
+    }
 
-	public int getZ() {
-		return z;
-	}//maybe will be used for sorting, maybe
+    public int getZ() {
+        return z;
+    }//maybe will be used for sorting, maybe
 
-	public void setZ(int nz) {
-		z = nz;
-	}//maybe will be used for sorting, maybe
+    public void setZ(int nz) {
+        z = nz;
+    }//maybe will be used for sorting, maybe
 
-	//return texture
-	public String getTextureKey() {
-		return textureKey;
-	}
+    //return texture
+    public String getTextureKey() {
+        return textureKey;
+    }
 
-	// if textureKey == null, return custom texture
-	public abstract Image getCustomTexture();
+    // if textureKey == null, return custom texture
+    public abstract Image getCustomTexture();
 
-	// if doCustomRender, perform drawing manually
-	public abstract boolean doCustomRender();
+    // if doCustomRender, perform drawing manually
+    public abstract boolean doCustomRender();
 
-	public abstract void customRender(Graphics2D G);
+    public abstract void customRender(Graphics2D G);
 }

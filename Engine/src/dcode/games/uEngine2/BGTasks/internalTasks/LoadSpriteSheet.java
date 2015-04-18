@@ -15,43 +15,40 @@ import java.awt.image.BufferedImage;
  */
 public class LoadSpriteSheet extends PBGTask {
 
-	private String texKey = "UNKNOWN";
-	private String addr = "missing";
-	private int spriteWidth = 1;
-	private int spriteHeight = 1;
+    private String texKey = "UNKNOWN";
+    private String addr = "missing";
+    private int spriteWidth = 1;
+    private int spriteHeight = 1;
 
 
-	public LoadSpriteSheet(String location, String basekey, int spriteW, int spriteH) {
-		this.TaskPriority = PRIORITY_LOW;
-		texKey = basekey;
-		addr = location;
-		spriteHeight = spriteH;
-		spriteWidth = spriteW;
-	}
+    public LoadSpriteSheet(String location, String basekey, int spriteW, int spriteH) {
+        this.TaskPriority = PRIORITY_LOW;
+        texKey = basekey;
+        addr = location;
+        spriteHeight = spriteH;
+        spriteWidth = spriteW;
+    }
 
-	@Override
-	public boolean isReady() {
-		if (StData.resources.grf.loader_internal == null) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean isReady() {
+        return StData.resources.grf.loader_internal != null;
+    }
 
-	@Override
-	public void perform() {
-		StData.LOG.println("BGTask LBT: trying to load texture from: " + addr, "D");
-		StData.resources.grf.loader_internal.loadSingleTexture(addr, texKey);
-		BufferedImage bf = StData.resources.grf.getTexture(texKey);
-		int xSprites = bf.getWidth() / spriteWidth;
-		int ySprites = bf.getHeight() / spriteHeight;
+    @Override
+    public void perform() {
+        StData.LOG.println("BGTask LBT: trying to load texture from: " + addr, "D");
+        StData.resources.grf.loader_internal.loadSingleTexture(addr, texKey);
+        BufferedImage bf = StData.resources.grf.getTexture(texKey);
+        int xSprites = bf.getWidth() / spriteWidth;
+        int ySprites = bf.getHeight() / spriteHeight;
 
-		for (int i = 0; i < xSprites; i++) {
-			for (int j = 0; j < ySprites; j++) {
-				BufferedImage o = bf.getSubimage(spriteWidth * i, spriteHeight * j, spriteWidth, spriteHeight);
-				StData.resources.grf.registerTexture(o, texKey + "X" + i + "Y" + j);
-			}
-		}
+        for (int i = 0; i < xSprites; i++) {
+            for (int j = 0; j < ySprites; j++) {
+                BufferedImage o = bf.getSubimage(spriteWidth * i, spriteHeight * j, spriteWidth, spriteHeight);
+                StData.resources.grf.registerTexture(o, texKey + "X" + i + "Y" + j);
+            }
+        }
 
-		done = true;
-	}
+        done = true;
+    }
 }

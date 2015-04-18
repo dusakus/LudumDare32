@@ -14,16 +14,16 @@ import dcode.games.uEngine2.SFX.AudioContent;
  * @author dusakus
  */
 public class GameContainer {
-	public ScreenContent currentSC = null;
-	public AudioContent currentAC = null;
-	public LogicTasks currentLT = null;
-	public BackgroundTasks currentBGT = null;
+    public ScreenContent currentSC = null;
+    public AudioContent currentAC = null;
+    public LogicTasks currentLT = null;
+    public BackgroundTasks currentBGT = null;
 
-	public GameContainer() {
-		if (StData.setup.soundEnabled) currentAC = new AudioContent();
-		currentBGT = new BackgroundTasks();
-		currentLT = new LogicTasks();
-		currentSC = new ScreenContent();
-	}
+    public GameContainer() {
+        if (StData.setup.soundEnabled) currentAC = new AudioContent();
+        currentBGT = new BackgroundTasks();
+        currentLT = new LogicTasks();
+        currentSC = new ScreenContent();
+    }
 
 }

@@ -11,25 +11,25 @@ import java.awt.*;
  */
 public class MenuPointer extends Sprite {
 
-	MenuLogic ml;
+    MenuLogic ml;
 
-	public MenuPointer(MenuLogic dataSource) {
-		ml = dataSource;
-	}
+    public MenuPointer(MenuLogic dataSource) {
+        ml = dataSource;
+    }
 
-	@Override
-	public Image getCustomTexture() {
-		return null;
-	}
+    @Override
+    public Image getCustomTexture() {
+        return null;
+    }
 
-	@Override
-	public boolean doCustomRender() {
-		return true;
-	}
+    @Override
+    public boolean doCustomRender() {
+        return true;
+    }
 
-	@Override
-	public void customRender(Graphics2D G) {
-		Point p = ml.getCurrentPoinerCoords();
-		G.drawImage(StData.resources.grf.getTexture("MARR"), p.x - 15, p.y - 7, null);
-	}
+    @Override
+    public void customRender(Graphics2D G) {
+        Point p = ml.getCurrentPoinerCoords();
+        G.drawImage(StData.resources.grf.getTexture("MARR"), p.x - 15, p.y - 7, null);
+    }
 }

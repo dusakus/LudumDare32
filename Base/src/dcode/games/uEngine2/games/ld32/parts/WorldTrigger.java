@@ -7,9 +7,9 @@ import java.awt.*;
  */
 public class WorldTrigger {
 
-	//TODO: implement triggers
+    //TODO: implement triggers
 
-	public void checkTrigger(Color dataAt) {
+    public void checkTrigger(Color dataAt) {
 
-	}
+    }
 }

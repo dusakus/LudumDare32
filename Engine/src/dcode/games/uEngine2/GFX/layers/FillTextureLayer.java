@@ -15,25 +15,25 @@ import java.awt.*;
  */
 public class FillTextureLayer implements ILayer {
 
-	String textureKey = "missing";
+    String textureKey = "missing";
 
-	public FillTextureLayer(String key) {
-		textureKey = key;
-	}
+    public FillTextureLayer(String key) {
+        textureKey = key;
+    }
 
-	@Override
-	public void draw(Graphics2D G2D) {
-		G2D.drawImage(StData.resources.grf.getScaledTexture(textureKey, StData.setup.width, StData.setup.height), 0, 0, null);
-	}
+    @Override
+    public void draw(Graphics2D G2D) {
+        G2D.drawImage(StData.resources.grf.getScaledTexture(textureKey, StData.setup.width, StData.setup.height), 0, 0, null);
+    }
 
-	@Override
-	public boolean removeMe() {
-		return false;
-	}
+    @Override
+    public boolean removeMe() {
+        return false;
+    }
 
-	@Override
-	public boolean renderMe() {
-		return true;
-	}
+    @Override
+    public boolean renderMe() {
+        return true;
+    }
 
 }

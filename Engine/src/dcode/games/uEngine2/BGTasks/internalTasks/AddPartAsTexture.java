@@ -15,31 +15,31 @@ import java.awt.image.BufferedImage;
  */
 public class AddPartAsTexture extends PBGTask {
 
-	private String texKey = "noKey";
-	private String texSrc = "UNKNOWN";
-	private int x, y, width, height;
+    private String texKey = "noKey";
+    private String texSrc = "UNKNOWN";
+    private int x, y, width, height;
 
-	public AddPartAsTexture(String source, String key, int x, int y, int width, int height) {
-		this.TaskPriority = PRIORITY_LOW;
-		texKey = key;
-		texSrc = source;
-		this.width = width;
-		this.height = height;
-		this.x = x;
-		this.y = y;
-	}
+    public AddPartAsTexture(String source, String key, int x, int y, int width, int height) {
+        this.TaskPriority = PRIORITY_LOW;
+        texKey = key;
+        texSrc = source;
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+    }
 
-	@Override
-	public boolean isReady() {
-		return texSrc.equalsIgnoreCase("missing") || (StData.resources.grf.getTexture(texSrc) != StData.resources.grf.getTexture("missing"));
-	}
+    @Override
+    public boolean isReady() {
+        return texSrc.equalsIgnoreCase("missing") || (StData.resources.grf.getTexture(texSrc) != StData.resources.grf.getTexture("missing"));
+    }
 
-	@Override
-	public void perform() {
-		StData.LOG.println("BGTask LBT: trying to copy part of texture (" + texSrc + ")", "D");
-		BufferedImage out = StData.resources.grf.getTexture(texSrc).getSubimage(x, y, width, height);
-		StData.resources.grf.registerTexture(out, texKey);
-		done = true;
-	}
+    @Override
+    public void perform() {
+        StData.LOG.println("BGTask LBT: trying to copy part of texture (" + texSrc + ")", "D");
+        BufferedImage out = StData.resources.grf.getTexture(texSrc).getSubimage(x, y, width, height);
+        StData.resources.grf.registerTexture(out, texKey);
+        done = true;
+    }
 
 }

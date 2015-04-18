@@ -5,14 +5,13 @@
  */
 package dcode.games.uEngine2.GFX.postproc;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
  * @author dusakus
  */
 public interface IGrfPostProcessor {
-	public BufferedImage processFrame(BufferedImage NextFrame);
+    BufferedImage processFrame(BufferedImage NextFrame);
 
-	public boolean enabled();
+    boolean enabled();
 }

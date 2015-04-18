@@ -9,9 +9,9 @@ package dcode.games.uEngine2.LOGIC;
  * @author dusakus
  */
 public interface ILogicTask {
-	public abstract boolean isReady();
+    boolean isReady();
 
-	public abstract void perform();
+    void perform();
 
-	public abstract boolean doRepeat();
+    boolean doRepeat();
 }

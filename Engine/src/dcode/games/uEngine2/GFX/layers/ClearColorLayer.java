@@ -10,25 +10,25 @@ import java.awt.*;
  */
 public class ClearColorLayer implements ILayer {
 
-	private Color color;
+    private Color color;
 
-	public ClearColorLayer(Color setColor) {
-		color = setColor;
-	}
+    public ClearColorLayer(Color setColor) {
+        color = setColor;
+    }
 
-	@Override
-	public void draw(Graphics2D G2D) {
-		G2D.setColor(color);
-		G2D.fillRect(0, 0, StData.setup.width, StData.setup.height);
-	}
+    @Override
+    public void draw(Graphics2D G2D) {
+        G2D.setColor(color);
+        G2D.fillRect(0, 0, StData.setup.width, StData.setup.height);
+    }
 
-	@Override
-	public boolean removeMe() {
-		return false;
-	}
+    @Override
+    public boolean removeMe() {
+        return false;
+    }
 
-	@Override
-	public boolean renderMe() {
-		return false;
-	}
+    @Override
+    public boolean renderMe() {
+        return false;
+    }
 }

@@ -16,23 +16,23 @@ import java.awt.*;
  */
 public class prepareScaledSubTexture extends PBGTask {
 
-	TexMan.ScaledSubTexture sstb;
+    TexMan.ScaledSubTexture sstb;
 
-	public prepareScaledSubTexture(TexMan.ScaledSubTexture scaledSubTextureBuffer) {
-		sstb = scaledSubTextureBuffer;
-		this.TaskPriority = PRIORITY_LOW;
-	}
+    public prepareScaledSubTexture(TexMan.ScaledSubTexture scaledSubTextureBuffer) {
+        sstb = scaledSubTextureBuffer;
+        this.TaskPriority = PRIORITY_LOW;
+    }
 
 
-	@Override
-	public boolean isReady() {
-		return sstb.key.equalsIgnoreCase("missing") || !(StData.resources.grf.getTexture(sstb.key) == StData.resources.grf.getTexture("missing"));
-	}
+    @Override
+    public boolean isReady() {
+        return sstb.key.equalsIgnoreCase("missing") || !(StData.resources.grf.getTexture(sstb.key) == StData.resources.grf.getTexture("missing"));
+    }
 
-	@Override
-	public void perform() {
-		sstb.texture = StData.resources.grf.getPartTexture(sstb.key, sstb.posX, sstb.posY, sstb.cropWidth, sstb.cropHeight).getScaledInstance(sstb.height, sstb.width, Image.SCALE_REPLICATE);
-		done = true;
-	}
+    @Override
+    public void perform() {
+        sstb.texture = StData.resources.grf.getPartTexture(sstb.key, sstb.posX, sstb.posY, sstb.cropWidth, sstb.cropHeight).getScaledInstance(sstb.height, sstb.width, Image.SCALE_REPLICATE);
+        done = true;
+    }
 
 }

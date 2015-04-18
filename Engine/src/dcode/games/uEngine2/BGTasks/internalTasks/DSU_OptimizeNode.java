@@ -13,22 +13,22 @@ import dcode.games.uEngine2.ResourceManager.DSU.DSU_NODE;
  */
 public class DSU_OptimizeNode extends PBGTask {
 
-	DSU_NODE dn;
+    DSU_NODE dn;
 
-	public DSU_OptimizeNode(DSU_NODE dn) {
-		this.dn = dn;
-		this.TaskPriority = PRIORITY_LOW;
-	}
+    public DSU_OptimizeNode(DSU_NODE dn) {
+        this.dn = dn;
+        this.TaskPriority = PRIORITY_LOW;
+    }
 
-	@Override
-	public boolean isReady() {
-		return true;
-	}
+    @Override
+    public boolean isReady() {
+        return true;
+    }
 
-	@Override
-	public void perform() {
-		dn.optimize();
-		done = true;
-	}
+    @Override
+    public void perform() {
+        dn.optimize();
+        done = true;
+    }
 
 }

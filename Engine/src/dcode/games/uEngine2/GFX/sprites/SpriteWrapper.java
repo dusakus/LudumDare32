@@ -18,103 +18,103 @@ import java.awt.*;
  * @author dusakus
  */
 public class SpriteWrapper extends Sprite implements ILogicTask {
-	public boolean shiftOrReplace = true; // true for shift, false for replace;
-	public int spriteId;
-	public Sprite localSprite;
+    public boolean shiftOrReplace = true; // true for shift, false for replace;
+    public int spriteId;
+    public Sprite localSprite;
 
-	public boolean enabled = false;
-	private SpriteLogicTask slt;
-	private int tick;
+    public boolean enabled = false;
+    private SpriteLogicTask slt;
+    private int tick;
 
-	public void setSprite(Sprite s) {
-		localSprite = s;
-		spriteId = -1;
-		enabled = true;
-	}
+    public void setSprite(Sprite s) {
+        localSprite = s;
+        spriteId = -1;
+        enabled = true;
+    }
 
-	public void clear() {
-		spriteId = -1;
-		localSprite = new nullSprite();
-		enabled = false;
-	}
+    public void clear() {
+        spriteId = -1;
+        localSprite = new nullSprite();
+        enabled = false;
+    }
 
-	@Override
-	public int getX() {
-		if (shiftOrReplace) {
-			return getSprite().x + x;
-		}
-		return x;
-	}
+    @Override
+    public int getX() {
+        if (shiftOrReplace) {
+            return getSprite().x + x;
+        }
+        return x;
+    }
 
-	@Override
-	public int getY() {
-		if (shiftOrReplace) {
-			return getSprite().y + y;
-		}
-		return y;
-	}
+    @Override
+    public int getY() {
+        if (shiftOrReplace) {
+            return getSprite().y + y;
+        }
+        return y;
+    }
 
-	@Override
-	public int getZ() {
-		if (shiftOrReplace) {
-			return getSprite().z + z;
-		}
-		return z;
-	}
+    @Override
+    public int getZ() {
+        if (shiftOrReplace) {
+            return getSprite().z + z;
+        }
+        return z;
+    }
 
-	private Sprite getSprite() {
-		if (spriteId >= 0) {
-			return StData.currentGC.currentSC.sprites[spriteId];
-		}
-		return localSprite;
-	}
+    private Sprite getSprite() {
+        if (spriteId >= 0) {
+            return StData.currentGC.currentSC.sprites[spriteId];
+        }
+        return localSprite;
+    }
 
-	public void setSprite(int s) {
-		spriteId = s;
-		enabled = true;
-	}
+    public void setSprite(int s) {
+        spriteId = s;
+        enabled = true;
+    }
 
-	public void setUpdateOperation(SpriteLogicTask slt) {
-		this.slt = slt;
-	}
+    public void setUpdateOperation(SpriteLogicTask slt) {
+        this.slt = slt;
+    }
 
-	//return texture
-	@Override
-	public String getTextureKey() {
-		return getSprite().textureKey;
-	}
+    //return texture
+    @Override
+    public String getTextureKey() {
+        return getSprite().textureKey;
+    }
 
-	// if textureKey == null, return custom texture
-	@Override
-	public Image getCustomTexture() {
-		return getSprite().getCustomTexture();
-	}
+    // if textureKey == null, return custom texture
+    @Override
+    public Image getCustomTexture() {
+        return getSprite().getCustomTexture();
+    }
 
-	// if doCustomRender, perform drawing manually
-	@Override
-	public boolean doCustomRender() {
-		return getSprite().doCustomRender();
-	}
+    // if doCustomRender, perform drawing manually
+    @Override
+    public boolean doCustomRender() {
+        return getSprite().doCustomRender();
+    }
 
-	@Override
-	public void customRender(Graphics2D G) {
-		getSprite().customRender(G);
-	}
+    @Override
+    public void customRender(Graphics2D G) {
+        getSprite().customRender(G);
+    }
 
-	@Override
-	public boolean isReady() {
-		return true;
-	}
+    @Override
+    public boolean isReady() {
+        return true;
+    }
 
-	@Override
-	public void perform() {
-		if (slt != null) {
-			slt.update(this, tick);
-		}
-	}
+    @Override
+    public void perform() {
+        if (slt != null) {
+            slt.update(this, tick);
+        }
+    }
 
-	@Override
-	public boolean doRepeat() {
-		return true;
-	}
+    @Override
+    public boolean doRepeat() {
+        return true;
+    }
 }
