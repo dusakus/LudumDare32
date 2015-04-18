@@ -15,13 +15,13 @@ public class LD32_INIT {
 
 		gs.debug = true;
 		gs.width = 400;
-		gs.height = 240;
+		gs.height = 300;
 		gs.scale = 2;
 
-		gs.spriteTableSize = 8;
-		gs.enableSpriteWrappers = false;
-		gs.postProcCount = 0;
-		gs.spriteLayerSize = 8;
+		gs.spriteTableSize = 40;
+		gs.enableSpriteWrappers = true;
+		gs.postProcCount = 1;
+		gs.spriteLayerSize = 64;
 
 		gs.soundEnabled = false;
 

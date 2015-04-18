@@ -4,6 +4,9 @@ import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBitmapFont;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.items.ItemList;
+import dcode.games.uEngine2.games.ld32.world.WorldPlayer;
+import dcode.games.uEngine2.games.ld32.worlds.WorldList;
 
 import static dcode.games.uEngine2.StData.LOG;
 import static dcode.games.uEngine2.StData.currentGC;
@@ -39,23 +42,41 @@ public class MainLogic implements ILogicTask {
 						LOG.println("[INIT] Creating Logic objects", "D");
 						currentGC.currentLT.registerBasic(new MenuLogic());
 						currentGC.currentLT.registerBasic(new GameLogic());
-						currentStatus += 9;
+						currentStatus += 8;
+						break;
+					case 9:
+						LOG.println("[INIT] Initializing registries", "D");
+						ItemList.fillList();
+						WorldList.fillList();
+						currentStatus++;
 						break;
 					case 10:
 						LOG.println("[INIT] requesting texture preloading", "D");
 
+						//Load generic fonts
 						StData.generalBGT.LPTasks.add(new LoadBitmapFont("font/pixel_7_9_BLACK.png", "FNTB", 7, 9, LoadBitmapFont.charList));
 						StData.generalBGT.LPTasks.add(new LoadBitmapFont("font/pixel_7_9_WHITE.png", "FNTW", 7, 9, LoadBitmapFont.charList));
 
-						StData.generalBGT.LPTasks.add(new LoadBasicTexture("Frames/menuBG.png", "MeBG1"));
-
+						//Load Menu pointer (TEMP)
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowRight.png", "MARR"));
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowLeft.png", "MARL"));
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowUp.png", "MARU"));
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowDown.png", "MARD"));
 
+						//Load player textures
+						WorldPlayer.loadTextures(null);
+						for (int i = 0; i < ItemList.getSize(); i++) {
+							if(ItemList.itemExists(i)) WorldPlayer.loadTextures(ItemList.getItem(i));
+						}
+
 						//TODO: load preloadeable textures here
 						//Add more states if needed
+
+						//Load MenuBackground  (TEMP)
+						StData.generalBGT.LPTasks.add(new LoadBasicTexture("Frames/menuBG.png", "MeBG1"));
+						currentStatus = 31;
+						break;
+					case 31:
 						currentStatus = 48;
 						break;
 					case 48:
@@ -63,7 +84,7 @@ public class MainLogic implements ILogicTask {
 						currentStatus++;
 						break;
 					case 49:
-						if (StData.resources.grf.isTextureAviable("MARD")) { //TODO: replace id with last requested texture
+						if (StData.resources.grf.isTextureAviable("MeBG1")) { //TODO: replace id with last requested texture
 							currentStatus++;
 							LOG.println("Textures loaded", "D");
 						}

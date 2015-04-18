@@ -15,5 +15,9 @@ public class LStData {
     public static int currentStatus = 0;
 
     public static GameLogic GL;
+    public static int roomWidth;
+    public static int roomHeight;
+    public static int renderOffsetX = 0;
+    public static int renderOffsetY = 0;
 }
 

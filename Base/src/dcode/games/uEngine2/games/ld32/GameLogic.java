@@ -3,6 +3,10 @@ package dcode.games.uEngine2.games.ld32;
 import dcode.games.uEngine2.GFX.ScreenContent;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.render.Layer_WORLDDraw;
+import dcode.games.uEngine2.games.ld32.world.GameWorld;
+import dcode.games.uEngine2.games.ld32.world.WorldPlayer;
+import dcode.games.uEngine2.tools.numbarTools;
 
 import static dcode.games.uEngine2.StData.LOG;
 import static dcode.games.uEngine2.games.ld32.LStData.GL;
@@ -15,6 +19,8 @@ import static dcode.games.uEngine2.games.ld32.LStData.currentStatus;
 public class GameLogic implements ILogicTask {
 
     private ScreenContent inGameSC;
+    private GameWorld currentGameWorld;
+    private WorldPlayer player;
 
     @Override
     public boolean isReady() {
@@ -26,8 +32,8 @@ public class GameLogic implements ILogicTask {
         switch (currentStatus) {
 
 
-            case 101:
-                //TODO: game tick
+            case 201:
+                updateWorldOffset();
                 break;
             case 1:
                 LOG.println("[GL] Entering game_play environment");
@@ -44,12 +50,14 @@ public class GameLogic implements ILogicTask {
                 currentStatus++;
                 break;
             case 12:
-                //TODO: Add standard layers here
+                inGameSC.layers_Background.add(new Layer_WORLDDraw());
                 currentStatus++;
                 break;
             case 13:
                 LOG.println("[GL] requesting player textures", "D");
-                //TODO: Create player here
+                player = new WorldPlayer(100, 100);
+
+
                 currentStatus++;
                 break;
             case 14:
@@ -59,9 +67,15 @@ public class GameLogic implements ILogicTask {
             case 109:
                 //TODO: enter game
                 StData.currentGC.currentSC = inGameSC;
-                currentStatus = 101;
+                currentStatus = 201;
                 break;
         }
+    }
+
+    private void updateWorldOffset() {
+        LStData.renderOffsetX = numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomX - 200, 0, LStData.roomWidth - 400);
+        LStData.renderOffsetY = numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomY - 150, 0, LStData.roomHeight - 300);
+
     }
 
     @Override
