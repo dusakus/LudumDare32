@@ -51,4 +51,5 @@ public class uGameSetup {
 
 	// Fonts
 	public int stringBufferSize = 16;
+	public boolean enableSpriteZSorting = false;
 }

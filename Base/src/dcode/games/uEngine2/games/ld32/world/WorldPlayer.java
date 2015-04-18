@@ -3,6 +3,7 @@ package dcode.games.uEngine2.games.ld32.world;
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.GFX.sprites.Sprite;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.LStData;
 
 import java.awt.*;
 
@@ -45,13 +46,20 @@ public class WorldPlayer extends Sprite {
 
 	}
 
+	public void updateCoords(int x, int y) {
+		//TODO: proper movement, with collisions
+
+		inRoomX += x;
+		inRoomY += y;
+	}
+
 	public void updatePlayer() {
-		if(animDelay == 0){
-			if(lastInRoomX != inRoomX || lastInRoomY != inRoomY){
+		if (animDelay == 0) {
+			if (lastInRoomX != inRoomX || lastInRoomY != inRoomY) {
 				animFrame++;
-				if(animFrame > 4) animFrame = 1;
-				if(lastInRoomX < inRoomX) animId = animFrame + 10;
-				if(lastInRoomX > inRoomX) animId = animFrame;
+				if (animFrame > 4) animFrame = 1;
+				if (lastInRoomX < inRoomX) animId = animFrame + 10;
+				if (lastInRoomX > inRoomX) animId = animFrame;
 				lastInRoomX = inRoomX;
 				lastInRoomY = inRoomY;
 				animDelay = 3;
@@ -59,6 +67,9 @@ public class WorldPlayer extends Sprite {
 		} else {
 			animDelay--;
 		}
+
+		this.x = inRoomX - LStData.renderOffsetX;
+		this.y = inRoomY - LStData.renderOffsetY;
 	}
 
 	public static void loadTextures(PlayerItem item) {

@@ -24,6 +24,8 @@ public class RenderThread extends Thread {
 	public boolean RUN = true;
 	//
 	private int TPS = 60;
+	public boolean forceSpriteSort = false;
+
 
 	public RenderThread() {
 
@@ -72,6 +74,8 @@ public class RenderThread extends Thread {
 
 				ScreenContent sc = StData.currentGC.currentSC;
 
+				if (StData.setup.enableSpriteZSorting || forceSpriteSort) sortSprites(sc);
+
 				if (StData.setup.enableSpriteWrappers) {
 					drawLayers(sc.layers_Background, G2D);
 					drawSprites(sc.sprites_back, G2D);
@@ -115,6 +119,78 @@ public class RenderThread extends Thread {
 				System.out.println("bug?");
 			}
 			ticks++;
+		}
+	}
+
+	public void sortSprites(ScreenContent sc) {
+		forceSpriteSort = false;
+		for (int pos = 0; pos < sc.sprites_back.length - 1; pos++) {
+			int loc = pos;
+			while (loc >= 0) {
+				if (sc.sprites_back[loc] >= 0 && sc.sprites_back[loc + 1] >= 0 && sc.sprites[sc.sprites_back[loc]] != null && sc.sprites[sc.sprites_back[loc + 1]] != null && sc.sprites[sc.sprites_back[loc]].getZ() > sc.sprites[sc.sprites_back[loc + 1]].getZ()) {
+					int tmp = sc.sprites_back[loc + 1];
+					sc.sprites_back[loc + 1] = sc.sprites_back[loc];
+					sc.sprites_back[loc] = tmp;
+				}
+				loc--;
+			}
+		}
+		for (int pos = 0; pos < sc.sprites_middle.length - 1; pos++) {
+			int loc = pos;
+			while (loc >= 0) {
+				if (sc.sprites_middle[loc] >= 0 && sc.sprites_middle[loc + 1] >= 0 && sc.sprites[sc.sprites_middle[loc]] != null && sc.sprites[sc.sprites_middle[loc + 1]] != null && sc.sprites[sc.sprites_middle[loc]].getZ() > sc.sprites[sc.sprites_middle[loc + 1]].getZ()) {
+					int tmp = sc.sprites_middle[loc + 1];
+					sc.sprites_middle[loc + 1] = sc.sprites_middle[loc];
+					sc.sprites_middle[loc] = tmp;
+				}
+				loc--;
+			}
+		}
+		for (int pos = 0; pos < sc.sprites_front.length - 1; pos++) {
+			int loc = pos;
+			while (loc >= 0) {
+				if (sc.sprites_front[loc] >= 0 && sc.sprites_front[loc + 1] >= 0 && sc.sprites[sc.sprites_front[loc]] != null && sc.sprites[sc.sprites_front[loc + 1]] != null && sc.sprites[sc.sprites_front[loc]].getZ() > sc.sprites[sc.sprites_front[loc + 1]].getZ()) {
+					int tmp = sc.sprites_front[loc + 1];
+					sc.sprites_front[loc + 1] = sc.sprites_front[loc];
+					sc.sprites_front[loc] = tmp;
+				}
+				loc--;
+			}
+		}
+		if (StData.setup.enableSpriteWrappers) {
+			for (int pos = 0; pos < sc.spriteW_back.length - 1; pos++) {
+				int loc = pos;
+				while (loc >= 0) {
+					if (sc.spriteW_back[loc] != null && sc.spriteW_back[loc + 1] != null && sc.spriteW_back[loc].getZ() > sc.spriteW_back[loc + 1].getZ()) {
+						SpriteWrapper tmp = sc.spriteW_back[loc + 1];
+						sc.spriteW_back[loc + 1] = sc.spriteW_back[loc];
+						sc.spriteW_back[loc] = tmp;
+					}
+					loc--;
+				}
+			}
+			for (int pos = 0; pos < sc.spriteW_middle.length - 1; pos++) {
+				int loc = pos;
+				while (loc >= 0) {
+					if (sc.spriteW_middle[loc] != null && sc.spriteW_middle[loc + 1] != null && sc.spriteW_middle[loc].getZ() > sc.spriteW_middle[loc + 1].getZ()) {
+						SpriteWrapper tmp = sc.spriteW_middle[loc + 1];
+						sc.spriteW_middle[loc + 1] = sc.spriteW_middle[loc];
+						sc.spriteW_middle[loc] = tmp;
+					}
+					loc--;
+				}
+			}
+			for (int pos = 0; pos < sc.spriteW_front.length - 1; pos++) {
+				int loc = pos;
+				while (loc >= 0) {
+					if (sc.spriteW_front[loc] != null && sc.spriteW_front[loc + 1] != null && sc.spriteW_front[loc].getZ() > sc.spriteW_front[loc + 1].getZ()) {
+						SpriteWrapper tmp = sc.spriteW_front[loc + 1];
+						sc.spriteW_front[loc + 1] = sc.spriteW_front[loc];
+						sc.spriteW_front[loc] = tmp;
+					}
+					loc--;
+				}
+			}
 		}
 	}
 

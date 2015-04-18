@@ -1,5 +1,7 @@
 package dcode.games.uEngine2.games.ld32;
 
+import dcode.games.uEngine2.games.ld32.world.WorldPlayer;
+
 /**
  * Created by dusakus on 10.04.15.
  */
@@ -39,21 +41,32 @@ public class InHandler extends dcode.games.uEngine2.PInputHandler {
 
     @Override
     public void keyPressed_W() {
-
+        if (LStData.currentMode == LStData.MODE_GAME_PLAY && LStData.currentStatus == 201){
+            ((WorldPlayer)LStData.GL.getSContent().sprites[2]).updateCoords(0, -1);
+        }
     }
 
     @Override
     public void keyPressed_S() {
+        if (LStData.currentMode == LStData.MODE_GAME_PLAY && LStData.currentStatus == 201){
+            ((WorldPlayer)LStData.GL.getSContent().sprites[2]).updateCoords(0, 1);
+        }
 
     }
 
     @Override
     public void keyPressed_A() {
+        if (LStData.currentMode == LStData.MODE_GAME_PLAY && LStData.currentStatus == 201){
+            ((WorldPlayer)LStData.GL.getSContent().sprites[2]).updateCoords(-1 , 0);
+        }
 
     }
 
     @Override
     public void keyPressed_D() {
+        if (LStData.currentMode == LStData.MODE_GAME_PLAY && LStData.currentStatus == 201){
+            ((WorldPlayer)LStData.GL.getSContent().sprites[2]).updateCoords(1, 0);
+        }
 
     }
 

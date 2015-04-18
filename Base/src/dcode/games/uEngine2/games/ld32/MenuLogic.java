@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import static dcode.games.uEngine2.games.ld32.LStData.MODE_GAME_PLAY;
+import static dcode.games.uEngine2.games.ld32.LStData.currentMode;
 import static dcode.games.uEngine2.games.ld32.LStData.currentStatus;
 
 /**
@@ -25,6 +27,8 @@ public class MenuLogic implements ILogicTask {
 	private int currentSelection = 1;
 	private int maxSelection = 4;
 	private int inputDelay = 10;
+
+	private int confirmedStatusShift = 1;
 
 	@Override
 	public boolean isReady() {
@@ -82,7 +86,13 @@ public class MenuLogic implements ILogicTask {
 			case 504:
 				inMenuSC.layers_Center.add(new MenuListLayer(this));
 				currentStatus = 2;
-
+				break;
+			case 1001:
+				if (currentSelection == 1) {
+					//Enter the game, (TEMP)
+					currentMode = MODE_GAME_PLAY;
+					currentStatus = 1;
+				}
 		}
 	}
 
@@ -98,6 +108,7 @@ public class MenuLogic implements ILogicTask {
 				inputDelay = 5;
 			}
 		}
+		if (InHandler.instance.isKeyPressed(KeyEvent.VK_ENTER)) currentStatus = 1000 + confirmedStatusShift;
 	}
 
 	@Override
