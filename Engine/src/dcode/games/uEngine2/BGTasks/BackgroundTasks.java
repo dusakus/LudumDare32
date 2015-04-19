@@ -14,9 +14,9 @@ import java.util.LinkedList;
  */
 public class BackgroundTasks {
 
-    public LinkedList<PBGTask> HPTasks;
     public LinkedList<PBGTask> LPTasks;
     public LinkedList<PBGTask> WaitingTasks;
+    private LinkedList<PBGTask> HPTasks;
     private PBGTask lastTask = null;
     private boolean didFinishLoop = true;
 

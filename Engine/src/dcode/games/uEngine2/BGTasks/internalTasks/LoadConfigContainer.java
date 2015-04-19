@@ -10,8 +10,8 @@ import java.io.File;
  */
 public class LoadConfigContainer extends PBGTask {
 
-    File source;
-    String storeAsID = "NONE";
+    private File source;
+    private String storeAsID = "NONE";
 
     public LoadConfigContainer(String dataID) {
 

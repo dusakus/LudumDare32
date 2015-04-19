@@ -44,6 +44,11 @@ public class FollowerEntity implements IEntityData, IEntityLogic {
     }
 
     @Override
+    public void initializeLogic() {
+
+    }
+
+    @Override
     public boolean shouldCheck() {
         return true;
     }

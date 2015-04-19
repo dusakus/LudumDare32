@@ -12,12 +12,11 @@ import dcode.games.uEngine2.StData;
  */
 public class LogicThread extends Thread {
     private static int threadIteration = -1;
-
-    //Loop variables
-    public int LOOP_TPS = 60;
     public int LOOP_ticks = 0;
     public boolean LOOP_RUN = true;
-    public boolean LOOP_Recalculate = true;
+    //Loop variables
+    private int LOOP_TPS = 60;
+    private boolean LOOP_Recalculate = true;
 
     public LogicThread() {
         LOOP_TPS = StData.setup.TPS_logic;
@@ -47,7 +46,7 @@ public class LogicThread extends Thread {
                         nextTime = System.nanoTime() + timeStep;
                     }
                     currentTime = System.nanoTime();
-                } catch (InterruptedException ex) {
+                } catch (InterruptedException ignored) {
                 }
             }
             nextTime += timeStep;

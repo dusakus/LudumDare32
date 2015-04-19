@@ -16,8 +16,8 @@ import java.awt.image.BufferedImage;
  */
 public class Canvas extends java.awt.Canvas {
 
-    String currentdraw = "INIT";
-    int msgticksleft = 100;
+    private String currentdraw = "INIT";
+    private int msgticksleft = 100;
     private boolean doScale = false;
 
     public Canvas() {

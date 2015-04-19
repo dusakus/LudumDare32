@@ -1,5 +1,6 @@
 package dcode.games.uEngine2.games.ld32;
 
+import dcode.games.uEngine2.BGTasks.PBGTask;
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBitmapFont;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
@@ -7,6 +8,10 @@ import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.items.ItemList;
 import dcode.games.uEngine2.games.ld32.world.WorldPlayer;
 import dcode.games.uEngine2.games.ld32.worlds.WorldList;
+import dcode.games.uEngine2.tools.ext.j2s.gifReader;
+import dcode.games.uEngine2.tools.ext.j2s.mirrorImage;
+
+import java.util.ArrayList;
 
 import static dcode.games.uEngine2.StData.LOG;
 import static dcode.games.uEngine2.StData.currentGC;
@@ -54,8 +59,9 @@ public class MainLogic implements ILogicTask {
                         LOG.println("[INIT] requesting texture preloading", "D");
 
                         //Load generic fonts
-                        StData.generalBGT.LPTasks.add(new LoadBitmapFont("font/pixel_7_9_BLACK.png", "FNTB", 7, 9, LoadBitmapFont.charList));
-                        StData.generalBGT.LPTasks.add(new LoadBitmapFont("font/pixel_7_9_WHITE.png", "FNTW", 7, 9, LoadBitmapFont.charList));
+                        StData.generalBGT.LPTasks.add(new LoadEnemyTextures());
+                        StData.generalBGT.LPTasks.add(new LoadBitmapFont("font/pixel_7_9_BLACK.png", "FNTB", 7, 9, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!?#*)(][><,.:;-+_=&~^$@\"/\\"));
+                        StData.generalBGT.LPTasks.add(new LoadBitmapFont("font/pixel_7_9_WHITE.png", "FNTW", 7, 9, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!?#*)(][><,.:;-+_=&~^$@\"/\\"));
 
                         //Load Menu pointer (TEMP)
                         StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowRight.png", "MARR"));
@@ -64,7 +70,6 @@ public class MainLogic implements ILogicTask {
                         StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowDown.png", "MARD"));
 
                         StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/TESTWORLD.png", "WORLD"));
-
 
                         //Load player textures
                         WorldPlayer.loadTextures(null);
@@ -117,5 +122,45 @@ public class MainLogic implements ILogicTask {
     @Override
     public boolean doRepeat() {
         return true;
+    }
+
+
+    private class LoadEnemyTextures extends PBGTask {
+        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> keys = new ArrayList<String>();
+
+        @Override
+        public boolean isReady() {
+            return true;
+        }
+
+        @Override
+        public void perform() {
+            names.add("ziemniak.gif");
+            keys.add("EnPOTS");
+            names.add("ziemniak_atak.gif");
+            keys.add("EnPOTA");
+            names.add("ziemniak_ruch.gif");
+            keys.add("EnPOTR");
+            names.add("grapes_explosion_ready.gif");
+            keys.add("EnGRAE");
+            names.add("grapes_ruch.gif");
+            keys.add("EnGRAR");
+            names.add("pizza_float.gif");
+            keys.add("EnPIZS");
+
+            for (String s : names) {
+                StData.LOG.println("Loading enemy sprite " + s);
+                gifReader gif = new gifReader();
+                gif.read(getClass().getResourceAsStream("/dcode/games/uEngine2/games/ld32/res/gfx/sprite/enemy/" + s));
+                for (int i = 0; i < gif.getFrameCount(); i++) {
+                    StData.LOG.println("Frame " + i + " as " + keys.get(names.indexOf(s)) + (i + 1));
+                    StData.resources.grf.registerTexture(gif.getFrame(i), keys.get(names.indexOf(s)) + (i + 1));
+                    StData.resources.grf.registerTexture(mirrorImage.mirror(gif.getFrame(i)), keys.get(names.indexOf(s)) + (i + 11));
+                }
+                StData.LOG.println("done");
+            }
+
+        }
     }
 }

@@ -7,6 +7,7 @@ import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.parts.MenuEntry;
 import dcode.games.uEngine2.games.ld32.parts.MenuListLayer;
 import dcode.games.uEngine2.games.ld32.parts.MenuPointer;
+import dcode.games.uEngine2.games.ld32.parts.PProc_MenuUpScaler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -55,10 +56,10 @@ public class MenuLogic implements ILogicTask {
             //MAIN
             case 121:
                 content = new ArrayList<MenuEntry>();
-                content.add(new MenuEntry("Start Game", 10, 60));
-                content.add(new MenuEntry("Options", 10, 70));
-                content.add(new MenuEntry("Reset", 10, 80));
-                content.add(new MenuEntry("EXIT", 10, 90));
+                content.add(new MenuEntry("Start Game", 20, 60));
+                content.add(new MenuEntry("Options", 20, 70));
+                content.add(new MenuEntry("Reset", 20, 80));
+                content.add(new MenuEntry("EXIT", 20, 90));
 
                 currentStatus = 260;
                 break;
@@ -74,6 +75,7 @@ public class MenuLogic implements ILogicTask {
                 break;
             case 502:  //Create MenuBgFiller layer
                 inMenuSC.layers_Center.add(new FillTextureLayer("MeBG1")); //TODO: get that texture somewhere
+                inMenuSC.postProcessors[0] = new PProc_MenuUpScaler();
                 currentStatus++;
                 break;
             case 503:  //Create menu pointer
@@ -115,7 +117,7 @@ public class MenuLogic implements ILogicTask {
     }
 
     public Point getCurrentPoinerCoords() {
-        return new Point(10, 55 + currentSelection * 10);
+        return new Point(18, 55 + currentSelection * 10);
     }
 
     public ArrayList<MenuEntry> getEntryList() {

@@ -140,7 +140,7 @@ public class TinySound {
             updateThread.setDaemon(true);
             updateThread.setPriority(Thread.MAX_PRIORITY);
             updateThread.setName("TinySound main thread");
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         TinySound.inited = true;
         updateThread.start();
@@ -225,7 +225,7 @@ public class TinySound {
      *                       temporary file to reduce memory overhead
      * @return Music resource as specified, null if not found/loaded
      */
-    public static Music loadMusic(String name, boolean streamFromFile) {
+    private static Music loadMusic(String name, boolean streamFromFile) {
         //check if the system is initialized
         if (!TinySound.inited) {
             System.err.println("TinySound not initialized!");
@@ -266,7 +266,7 @@ public class TinySound {
      *                       temporary file to reduce memory overhead
      * @return Music from file as specified, null if not found/loaded
      */
-    public static Music loadMusic(File file, boolean streamFromFile) {
+    private static Music loadMusic(File file, boolean streamFromFile) {
         //check if the system is initialized
         if (!TinySound.inited) {
             System.err.println("TinySound not initialized!");
@@ -276,7 +276,7 @@ public class TinySound {
         if (file == null) {
             return null;
         }
-        URL url = null;
+        URL url;
         try {
             url = file.toURI().toURL();
         } catch (MalformedURLException e) {
@@ -304,7 +304,7 @@ public class TinySound {
      *                       temporary file to reduce memory overhead
      * @return Music from URL as specified, null if not found/loaded
      */
-    public static Music loadMusic(URL url, boolean streamFromFile) {
+    private static Music loadMusic(URL url, boolean streamFromFile) {
         //check if the system is initialized
         if (!TinySound.inited) {
             System.err.println("TinySound not initialized!");
@@ -367,7 +367,7 @@ public class TinySound {
      *                       temporary file to reduce memory overhead
      * @return Sound resource as specified, null if not found/loaded
      */
-    public static Sound loadSound(String name, boolean streamFromFile) {
+    private static Sound loadSound(String name, boolean streamFromFile) {
         //check if the system is initialized
         if (!TinySound.inited) {
             System.err.println("TinySound not initialized!");
@@ -409,7 +409,7 @@ public class TinySound {
      *                       temporary file to reduce memory overhead
      * @return Sound from file as specified, null if not found/loaded
      */
-    public static Sound loadSound(File file, boolean streamFromFile) {
+    private static Sound loadSound(File file, boolean streamFromFile) {
         //check if the system is initialized
         if (!TinySound.inited) {
             System.err.println("TinySound not initialized!");
@@ -419,7 +419,7 @@ public class TinySound {
         if (file == null) {
             return null;
         }
-        URL url = null;
+        URL url;
         try {
             url = file.toURI().toURL();
         } catch (MalformedURLException e) {
@@ -447,7 +447,7 @@ public class TinySound {
      *                       temporary file to reduce memory overhead
      * @return Sound from URL as specified, null if not found/loaded
      */
-    public static Sound loadSound(URL url, boolean streamFromFile) {
+    private static Sound loadSound(URL url, boolean streamFromFile) {
         //check if the system is initialized
         if (!TinySound.inited) {
             System.err.println("TinySound not initialized!");
@@ -539,7 +539,7 @@ public class TinySound {
         } finally {
             try {
                 stream.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
         return data;
@@ -574,7 +574,7 @@ public class TinySound {
         } finally {
             try {
                 stream.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
         return data;
@@ -588,7 +588,7 @@ public class TinySound {
      * failure
      */
     private static AudioInputStream getValidAudioStream(URL url) {
-        AudioInputStream audioStream = null;
+        AudioInputStream audioStream;
         try {
             audioStream = AudioSystem.getAudioInputStream(url);
             AudioFormat streamFormat = audioStream.getFormat();
@@ -699,7 +699,7 @@ public class TinySound {
         } finally {
             try {
                 stream.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
         AudioFormat mono16 = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
@@ -759,7 +759,7 @@ public class TinySound {
         } finally {
             try {
                 stream.close();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
         AudioFormat stereo16 = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
@@ -782,7 +782,7 @@ public class TinySound {
                 TinySound.FORMAT.getChannels() * TinySound.FORMAT.getFrameSize();
         byte[] buf = new byte[bufSize];
         ByteList list = new ByteList(bufSize);
-        int numRead = 0;
+        int numRead;
         while ((numRead = stream.read(buf)) > -1) {
             for (int i = 0; i < numRead; i++) {
                 list.add(buf[i]);
@@ -800,7 +800,7 @@ public class TinySound {
      */
     private static StreamInfo createFileStream(byte[][] data) {
         //first try to create a file for the data to live in
-        File temp = null;
+        File temp;
         try {
             temp = File.createTempFile("tiny", "sound");
             //make sure this file will be deleted on exit
@@ -810,7 +810,7 @@ public class TinySound {
             return null;
         }
         //see if we can get the URL for this file
-        URL url = null;
+        URL url;
         try {
             url = temp.toURI().toURL();
         } catch (MalformedURLException e1) {
@@ -818,7 +818,7 @@ public class TinySound {
             return null;
         }
         //we have the file, now we want to be able to write to it
-        OutputStream out = null;
+        OutputStream out;
         try {
             out = new BufferedOutputStream(new FileOutputStream(temp),
                     (512 * 1024)); //buffer 512kb
@@ -865,11 +865,11 @@ public class TinySound {
         javax.sound.sampled.Mixer.Info[] mixerInfos =
                 AudioSystem.getMixerInfo();
         //iterate through the mixers trying to find a line
-        for (int i = 0; i < mixerInfos.length; i++) {
+        for (javax.sound.sampled.Mixer.Info mixerInfo : mixerInfos) {
             javax.sound.sampled.Mixer mixer = null;
             try {
                 //first try to actually get the mixer
-                mixer = AudioSystem.getMixer(mixerInfos[i]);
+                mixer = AudioSystem.getMixer(mixerInfo);
             } catch (SecurityException e) {
                 //not much we can do here
             } catch (IllegalArgumentException e) {

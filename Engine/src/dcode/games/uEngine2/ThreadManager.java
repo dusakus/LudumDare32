@@ -23,10 +23,9 @@ import dcode.games.uEngine2.window.Window;
 public class ThreadManager {
 
     public RenderThread RT;
-    public AudioThread AT;
-    public LogicThread LT;
     public BackgroundThread BGT;
-
+    private AudioThread AT;
+    private LogicThread LT;
     private KeyWrapper KW;
     private PointerWrapper PW;
 
@@ -171,7 +170,7 @@ public class ThreadManager {
                 try {
                     Thread.sleep(5);
                     currentTime = System.nanoTime();
-                } catch (InterruptedException ex) {
+                } catch (InterruptedException ignored) {
                 }
             }
             nextTime += timeStep;

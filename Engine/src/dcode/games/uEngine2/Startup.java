@@ -42,11 +42,11 @@ public class Startup {
 
         try {
             Thread.sleep(100);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         try {
             Thread.sleep(100);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         GB.contentInitializer.engineStopped();
     }

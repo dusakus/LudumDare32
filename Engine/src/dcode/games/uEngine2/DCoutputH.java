@@ -10,12 +10,12 @@ import java.util.LinkedList;
 
 public class DCoutputH {
 
-    public boolean debug = false;
-    public boolean DRAWONHUD = false;
-    Date time;
-    DateFormat timed;
-    File logfile;
-    PrintWriter FO;
+    private boolean debug = false;
+    private boolean DRAWONHUD = false;
+    private Date time;
+    private DateFormat timed;
+    private File logfile;
+    private PrintWriter FO;
     private boolean toFile = false;
     private boolean isLongMode = false;
     private LinkedList<String> buffer;
@@ -166,7 +166,7 @@ public class DCoutputH {
         return true;
     }
 
-    public synchronized void print(Exception input) {
+    private synchronized void print(Exception input) {
         //System.out.println(input);
         println(input.getMessage());
 //		println(input.getCause().getMessage());
@@ -292,7 +292,7 @@ public class DCoutputH {
         return true;
     }
 
-    public void longMode(String text) {
+    private void longMode(String text) {
         if (isLongMode) {
             //println("________________________________________________________________________");
             println("[" + timed.format(time) + "]    {" + text + "}                \\/");

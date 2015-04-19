@@ -7,6 +7,7 @@ import dcode.games.uEngine2.games.ld32.worlds.PWorld;
 import dcode.games.uEngine2.games.ld32.worlds.WorldList;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -16,15 +17,16 @@ public class GameWorld {
     public ArrayList<WorldEntity> entities;
     public WorldPlayer wp;
     public WorldTrigger[] triggers = new WorldTrigger[255];
-
     public int levelID = -1;
+    BufferedImage dataTexture;
+    PWorld worldProc;
 
     public GameWorld(int currentLevel) {
         entities = new ArrayList<WorldEntity>();
         levelID = currentLevel;
-        PWorld p = WorldList.worldlist[levelID];
-        StData.resources.grf.registerTexture(StData.resources.grf.getTexture(p.getTexID()), "WORLD");
-        p.loadYerself(this);
+        worldProc = WorldList.worldlist[levelID];
+        StData.resources.grf.registerTexture(StData.resources.grf.getTexture(worldProc.getTexID()), "WORLD");
+        worldProc.loadYerself(this);
     }
 
     public void tick() {
@@ -39,6 +41,9 @@ public class GameWorld {
         }
         LStData.roomWidth = StData.resources.grf.getTexture("WORLD").getWidth();
         LStData.roomHeight = StData.resources.grf.getTexture("WORLD").getHeight();
+
+        dataTexture = StData.resources.grf.getTexture("WORLDD");
+        worldProc.triggerEvent(new Color(dataTexture.getRGB(wp.inRoomX, wp.inRoomY)));
 
     }
 
@@ -62,5 +67,12 @@ public class GameWorld {
 
     public void trigger(Color data) {
 
+    }
+
+    public boolean collide(int x, int y) {
+        Color c = new Color(dataTexture.getRGB(x, y));
+        if (c.getRed() == 255) return true;
+        else if (c.getRed() == 0) return false;
+        else return worldProc.checkUnlocked(c.getRed());
     }
 }

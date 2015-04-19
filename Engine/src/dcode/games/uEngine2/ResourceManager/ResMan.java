@@ -11,8 +11,8 @@ package dcode.games.uEngine2.ResourceManager;
 public class ResMan {
 
     public TexMan grf;
-    public SampledSfxMan ssfx;
     public SampledMsxMan smsx;
+    private SampledSfxMan ssfx;
 
     public ResMan() {
         grf = new TexMan();

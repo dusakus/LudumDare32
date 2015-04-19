@@ -37,10 +37,7 @@ public class LoadBitmapFont extends PBGTask {
 
     @Override
     public boolean isReady() {
-        if (StData.resources.grf.loader_internal == null) {
-            return false;
-        }
-        return true;
+        return StData.resources.grf.loader_internal != null;
     }
 
     @Override

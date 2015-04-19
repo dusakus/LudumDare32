@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class PP_Zoom implements IGrfPostProcessor {
 
-    public float scaleFactor = 1.3f;
+    private float scaleFactor = 1.3f;
 
     @Override
     public BufferedImage processFrame(BufferedImage NextFrame) {

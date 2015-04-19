@@ -15,9 +15,9 @@ import java.awt.event.KeyListener;
  */
 public class KeyWrapper implements KeyListener {
 
-    boolean isSHIFTHeld = false;
-    boolean isCONTROLLHeld = false;
-    boolean isALTTHeld = false;
+    private boolean isSHIFTHeld = false;
+    private boolean isCONTROLLHeld = false;
+    private boolean isALTTHeld = false;
     private PInputHandler PIH;
     private boolean[] keyTable;
 
@@ -143,9 +143,6 @@ public class KeyWrapper implements KeyListener {
     }
 
     public boolean isKeyHeld(int keyCode) {
-        if (keyCode >= 0 && keyCode <= 2047) {
-            return keyTable[keyCode];
-        }
-        return false;
+        return keyCode >= 0 && keyCode <= 2047 && keyTable[keyCode];
     }
 }

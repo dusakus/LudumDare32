@@ -14,7 +14,7 @@ import java.util.LinkedList;
  */
 public class LogicTasks {
 
-    LinkedList<ILogicTask> tasks;
+    private LinkedList<ILogicTask> tasks;
 
     public LogicTasks() {
         tasks = new LinkedList<ILogicTask>();

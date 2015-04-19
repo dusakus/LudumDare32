@@ -23,8 +23,8 @@ import java.awt.image.BufferedImage;
 public class TexMan {
 
     public InternalTextureLoader loader_internal = new InternalTextureLoader();
-    public BufferedImage MISSINGTEX = null;
-    DSU_NODE textureRegistry;
+    private BufferedImage MISSINGTEX = null;
+    private DSU_NODE textureRegistry;
 
     private ScaledTexture[] scaledTextureBuffer;
     private int nextSTBwriteAt = 0;
@@ -97,33 +97,28 @@ public class TexMan {
     public BufferedImage getString(String key, String content) {
         BufferedImage tex = null;
 
-        for (int i = 0; i < stringBuffer.length; i++) {
-            if (stringBuffer[i].text.equals(content)) {
-                if (stringBuffer[i].texKey.equals(key)) {
-                    tex = stringBuffer[i].texture;
-                    if (tex == null) {
-                        StData.LOG.println("STRINGBUFFER" + i + " broken", "E1");
-                        StData.generalBGT.LPTasks.add(new prepareString(stringBuffer[i]));
-                        return MISSINGTEX;
-                    } else {
-                        return tex;
-                    }
+        for (StringContainer aStringBuffer : stringBuffer) {
+            if (aStringBuffer.text.equals(content)) {
+                if (aStringBuffer.texKey.equals(key)) {
+                    tex = aStringBuffer.texture;
+                    break;
                 }
             }
 
         }
-        stringBuffer[nextSBwriteAt].texKey = key;
-        stringBuffer[nextSBwriteAt].text = content;
-        stringBuffer[nextSBwriteAt].texture = MISSINGTEX;
-        StData.generalBGT.LPTasks.add(new prepareString(stringBuffer[nextSBwriteAt]));
-        tex = MISSINGTEX;
-        nextSTBwriteAt++;
-        if (nextSTBwriteAt == StData.setup.stringBufferSize) {
-            nextSTBwriteAt = 0;
+
+        if (tex == null) {
+            stringBuffer[nextSBwriteAt].texKey = key;
+            stringBuffer[nextSBwriteAt].text = content;
+            stringBuffer[nextSBwriteAt].texture = MISSINGTEX;
+            StData.generalBGT.LPTasks.add(new prepareString(stringBuffer[nextSBwriteAt]));
+            tex = MISSINGTEX;
+            nextSBwriteAt++;               //That fucking typo, ARGH
+        }
+        if (nextSBwriteAt == StData.setup.stringBufferSize) {
+            nextSBwriteAt = 0;
             StData.LOG.println("WARNING: [Texture Manager] Ran out of string buffer, text might get bugged", "N");
         }
-
-
         return tex;
     }
 
@@ -132,10 +127,10 @@ public class TexMan {
     }
 
     public Image getScaledTexture(String key, int width, int height) {
-        for (int i = 0; i < scaledTextureBuffer.length; i++) {
-            if (scaledTextureBuffer[i].key.equals(key)) {
-                if (scaledTextureBuffer[i].width == width && scaledTextureBuffer[i].height == height) {
-                    return scaledTextureBuffer[i].texture;
+        for (ScaledTexture aScaledTextureBuffer : scaledTextureBuffer) {
+            if (aScaledTextureBuffer.key.equals(key)) {
+                if (aScaledTextureBuffer.width == width && aScaledTextureBuffer.height == height) {
+                    return aScaledTextureBuffer.texture;
                 }
             }
         }
@@ -160,10 +155,10 @@ public class TexMan {
     }
 
     public Image getScaledPartTexture(String key, int Scaled_width, int Scaled_height, int startX, int startY, int width, int height) {
-        for (int i = 0; i < scaledSubTextureBuffer.length; i++) {
-            if (scaledSubTextureBuffer[i].key.equals(key)) {
-                if (scaledSubTextureBuffer[i].width == Scaled_width && scaledSubTextureBuffer[i].height == Scaled_height && scaledSubTextureBuffer[i].cropHeight == height && scaledSubTextureBuffer[i].cropWidth == width && scaledSubTextureBuffer[i].posX == startX && scaledSubTextureBuffer[i].posY == startY) {
-                    return scaledSubTextureBuffer[i].texture;
+        for (ScaledSubTexture aScaledSubTextureBuffer : scaledSubTextureBuffer) {
+            if (aScaledSubTextureBuffer.key.equals(key)) {
+                if (aScaledSubTextureBuffer.width == Scaled_width && aScaledSubTextureBuffer.height == Scaled_height && aScaledSubTextureBuffer.cropHeight == height && aScaledSubTextureBuffer.cropWidth == width && aScaledSubTextureBuffer.posX == startX && aScaledSubTextureBuffer.posY == startY) {
+                    return aScaledSubTextureBuffer.texture;
                 }
             }
         }

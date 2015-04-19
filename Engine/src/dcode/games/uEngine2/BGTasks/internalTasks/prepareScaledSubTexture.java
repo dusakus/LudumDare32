@@ -16,7 +16,7 @@ import java.awt.*;
  */
 public class prepareScaledSubTexture extends PBGTask {
 
-    TexMan.ScaledSubTexture sstb;
+    private TexMan.ScaledSubTexture sstb;
 
     public prepareScaledSubTexture(TexMan.ScaledSubTexture scaledSubTextureBuffer) {
         sstb = scaledSubTextureBuffer;

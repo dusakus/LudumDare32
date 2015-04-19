@@ -8,7 +8,7 @@ import java.awt.event.WindowListener;
 /**
  * Created by dusakus on 13.04.15.
  */
-public class exitListener implements WindowListener {
+class exitListener implements WindowListener {
     @Override
     public void windowOpened(WindowEvent e) {
 

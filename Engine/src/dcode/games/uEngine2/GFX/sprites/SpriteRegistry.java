@@ -8,6 +8,6 @@ package dcode.games.uEngine2.GFX.sprites;
 /**
  * @author dusakus
  */
-public class SpriteRegistry {
+class SpriteRegistry {
 
 }

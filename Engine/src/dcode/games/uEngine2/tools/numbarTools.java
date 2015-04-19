@@ -10,9 +10,7 @@ package dcode.games.uEngine2.tools;
  */
 public class numbarTools {
     public static boolean checkBetween(int inputValue, int minValue, int maxValue) {
-        if (inputValue < minValue) return false;
-        if (inputValue > maxValue) return false;
-        return inputValue <= maxValue && inputValue >= minValue;
+        return inputValue >= minValue && inputValue <= maxValue && inputValue <= maxValue && inputValue >= minValue;
     }
 
     public static int clamp(int inputValue, int minValue, int maxValue) {

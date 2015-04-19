@@ -152,8 +152,7 @@ public class Mixer {
             double leftValue = 0.0;
             double rightValue = 0.0;
             //go through all the music first
-            for (int m = 0; m < this.musics.size(); m++) {
-                MusicReference music = this.musics.get(m);
+            for (MusicReference music : this.musics) {
                 //is the music playing and are there bytes available
                 if (music.getPlaying() && music.bytesAvailable() > 0) {
                     //add this music to the mix by volume (and global volume)
@@ -250,8 +249,7 @@ public class Mixer {
      */
     public synchronized void skip(int numBytes) {
         //go through all the music first
-        for (int m = 0; m < this.musics.size(); m++) {
-            MusicReference music = this.musics.get(m);
+        for (MusicReference music : this.musics) {
             //is the music playing and are there bytes available
             if (music.getPlaying() && music.bytesAvailable() > 0) {
                 //skip the bytes

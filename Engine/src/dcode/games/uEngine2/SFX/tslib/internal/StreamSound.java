@@ -135,7 +135,7 @@ public class StreamSound implements Sound {
      * The StreamSoundReference class is an implementation of the SoundReference
      * interface.
      *
-     * @Finn Kuusisto
+     * @author Finn Kuusisto
      */
     private static class StreamSoundReference implements SoundReference {
 

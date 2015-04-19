@@ -12,6 +12,7 @@ import dcode.games.uEngine2.translator.Translator;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Random;
 
 /**
  * THIS file stores essential game objects, accesed from multiple threads
@@ -35,5 +36,6 @@ public class StData {
     public static boolean gameIsRunning = true;                                 //is game running, or should stop execution
     public static Translator translator;
     public static boolean gameFreeze = false;
+    public static Random gRand = new Random(System.currentTimeMillis());
     static PuGameBase GameInitializer;                                          //Game initialization object, provided by game itself
 }

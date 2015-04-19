@@ -18,8 +18,7 @@ public class DSU_NODE_SUBSTOR {
     }
 
     public Object getObject(String key) {
-        for (int i = 0; i < objects.size(); i++) {
-            DSU_OBJECT get = objects.get(i);
+        for (DSU_OBJECT get : objects) {
             if (get.KEY.equals(key)) return get.OBJ;
         }
         return null;
@@ -38,8 +37,7 @@ public class DSU_NODE_SUBSTOR {
 
     public void add(DSU_OBJECT ob) {
         boolean stored = false;
-        for (int i = 0; i < objects.size(); i++) {
-            DSU_OBJECT get = objects.get(i);
+        for (DSU_OBJECT get : objects) {
             if (get.KEY.equals(ob.KEY)) {
                 get.OBJ = ob.OBJ;
                 stored = true;

@@ -5,10 +5,10 @@ import java.io.*;
 /**
  * @author dusakus
  */
-public class READER {
+class READER {
 
-    File F;
-    BufferedReader br;
+    private File F;
+    private BufferedReader br;
 
     public READER(File f) throws FileNotFoundException {
         F = f;

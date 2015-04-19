@@ -5,13 +5,13 @@ import dcode.games.uEngine2.StData;
 /**
  * Created by dusakus on 13.04.15.
  */
-public class SampledMusic {
-    public boolean isPlaying = false;
-    public boolean isStopped = false;
-    public boolean isLooped = false;
+class SampledMusic {
     public float volume = 1;
     public float pan = 0;
-    String msPlayerID;
+    private boolean isPlaying = false;
+    private boolean isStopped = false;
+    private boolean isLooped = false;
+    private String msPlayerID;
     private boolean wasPlaying = false;
     private boolean wasStopped = false;
     private boolean wasLooped = false;
@@ -30,7 +30,7 @@ public class SampledMusic {
         }
         if (isLooped != wasLooped) {
             StData.resources.smsx.setStopped(msPlayerID, isPlaying);
-            wasStopped = isStopped;
+            wasLooped = isLooped;
         }
     }
 }

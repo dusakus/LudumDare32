@@ -59,7 +59,7 @@ public class TestWorld extends PWorld {
     private class TestEntity extends WorldEntity {
 
         public TestEntity(IEntityData ed, IEntityLogic el) {
-            super(ed, el);
+            super(ed, el, 16, 16);
         }
     }
 
@@ -88,6 +88,11 @@ public class TestWorld extends PWorld {
 
     private class TestEntityLogic implements IEntityLogic {
         private int motionDelay = 10;
+
+        @Override
+        public void initializeLogic() {
+
+        }
 
         @Override
         public boolean shouldCheck() {

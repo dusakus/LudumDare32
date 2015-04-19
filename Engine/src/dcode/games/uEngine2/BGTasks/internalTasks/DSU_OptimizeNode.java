@@ -13,7 +13,7 @@ import dcode.games.uEngine2.ResourceManager.DSU.DSU_NODE;
  */
 public class DSU_OptimizeNode extends PBGTask {
 
-    DSU_NODE dn;
+    private DSU_NODE dn;
 
     public DSU_OptimizeNode(DSU_NODE dn) {
         this.dn = dn;

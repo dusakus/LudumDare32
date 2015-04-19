@@ -8,7 +8,7 @@ import dcode.games.uEngine2.*;
 public class LD32_INIT {
     public static void main(String[] args) {
         uGameSetup gs = new uGameSetup();
-        gs.FPS = -1;
+        gs.FPS = 120;
         gs.TPS_logic = 60;
         gs.TPS_MSX = 0;
         gs.TPS_BG = 60;

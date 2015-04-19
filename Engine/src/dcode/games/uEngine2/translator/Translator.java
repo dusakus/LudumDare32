@@ -16,7 +16,7 @@ public class Translator {
         languages.add(new LangContainer(baseLang));
     }
 
-    public void setLang(String langId) {
+    private void setLang(String langId) {
         for (LangContainer lc : languages) {
             if (lc.langId.equals(langId)) {
                 targetLang = lc;

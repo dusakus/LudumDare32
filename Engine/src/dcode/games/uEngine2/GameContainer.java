@@ -15,9 +15,9 @@ import dcode.games.uEngine2.SFX.AudioContent;
  */
 public class GameContainer {
     public ScreenContent currentSC = null;
-    public AudioContent currentAC = null;
     public LogicTasks currentLT = null;
     public BackgroundTasks currentBGT = null;
+    private AudioContent currentAC = null;
 
     public GameContainer() {
         if (StData.setup.soundEnabled) currentAC = new AudioContent();

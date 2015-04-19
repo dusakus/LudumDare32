@@ -129,7 +129,7 @@ public class UpdateRunner implements Runnable {
             //give the CPU back to the OS for a bit
             try {
                 Thread.sleep(1);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
         }
     }

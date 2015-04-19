@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public class FillTextureLayer implements ILayer {
 
-    String textureKey = "missing";
+    private String textureKey = "missing";
 
     public FillTextureLayer(String key) {
         textureKey = key;

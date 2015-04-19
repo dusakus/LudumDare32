@@ -1,13 +1,18 @@
 package dcode.games.uEngine2.games.ld32;
 
 import dcode.games.uEngine2.GFX.ScreenContent;
+import dcode.games.uEngine2.GFX.layers.ClearColorLayer;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.render.Layer_WORLDDraw;
+import dcode.games.uEngine2.games.ld32.render.ParalaxBackground;
 import dcode.games.uEngine2.games.ld32.world.GameWorld;
 import dcode.games.uEngine2.games.ld32.world.WorldPlayer;
 import dcode.games.uEngine2.games.ld32.worlds.WorldList;
 import dcode.games.uEngine2.tools.numbarTools;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
 import static dcode.games.uEngine2.StData.LOG;
 import static dcode.games.uEngine2.games.ld32.LStData.GL;
@@ -23,7 +28,7 @@ public class GameLogic implements ILogicTask {
     private GameWorld currentGameWorld;
     private WorldPlayer player;
 
-    private int currentLevel = 0;
+    private int currentLevel = 1;
 
     @Override
     public boolean isReady() {
@@ -38,6 +43,7 @@ public class GameLogic implements ILogicTask {
             case 201:
                 updateWorldOffset();
                 currentGameWorld.tick();
+                inputTick();
                 break;
             case 1:
                 LOG.println("[GL] Entering game_play environment");
@@ -54,7 +60,9 @@ public class GameLogic implements ILogicTask {
                 currentStatus++;
                 break;
             case 12:
-                inGameSC.layers_Background.add(new Layer_WORLDDraw());
+                inGameSC.layers_Background.add(new ClearColorLayer(Color.cyan));
+                inGameSC.layers_Background.add(new ParalaxBackground());
+                inGameSC.layers_Center.add(new Layer_WORLDDraw());
                 currentStatus++;
                 break;
             case 13:
@@ -95,6 +103,12 @@ public class GameLogic implements ILogicTask {
         }
     }
 
+    private void inputTick() {
+        if (InHandler.instance.isKeyPressed(KeyEvent.VK_LEFT)) player.goLeft();
+        if (InHandler.instance.isKeyPressed(KeyEvent.VK_RIGHT)) player.goRight();
+        if (InHandler.instance.isKeyPressed(KeyEvent.VK_UP)) player.goJump();
+    }
+
     private void updateWorldOffset() {
         LStData.renderOffsetX = numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomX - 200, 0, LStData.roomWidth - 400);
         LStData.renderOffsetY = numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomY - 150, 0, LStData.roomHeight - 300);
@@ -107,5 +121,9 @@ public class GameLogic implements ILogicTask {
 
     public ScreenContent getSContent() {
         return inGameSC;
+    }
+
+    public boolean getColisionAt(int x, int y) {
+        return currentGameWorld.collide(x, y);
     }
 }

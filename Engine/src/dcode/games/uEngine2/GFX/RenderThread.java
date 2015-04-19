@@ -22,7 +22,7 @@ public class RenderThread extends Thread {
 
     public int ticks = 0;
     public boolean RUN = true;
-    public boolean forceSpriteSort = false;
+    private boolean forceSpriteSort = false;
     //
     private int TPS = 60;
 
@@ -58,7 +58,7 @@ public class RenderThread extends Thread {
                         nextTime = System.nanoTime() + timeStep;
                     }
                     currentTime = System.nanoTime();
-                } catch (InterruptedException ex) {
+                } catch (InterruptedException ignored) {
                 }
             }
 
@@ -122,7 +122,7 @@ public class RenderThread extends Thread {
         }
     }
 
-    public void sortSprites(ScreenContent sc) {
+    private void sortSprites(ScreenContent sc) {
         forceSpriteSort = false;
         for (int pos = 0; pos < sc.sprites_back.length - 1; pos++) {
             int loc = pos;
@@ -196,8 +196,7 @@ public class RenderThread extends Thread {
 
     private void drawLayers(ArrayList<ILayer> array, Graphics2D G2D) {
         ILayer rmTask = null;
-        for (int i = 0; i < array.size(); i++) {
-            ILayer layer = array.get(i);
+        for (ILayer layer : array) {
             if (layer.renderMe()) {
                 layer.draw(G2D);
             }
@@ -224,7 +223,7 @@ public class RenderThread extends Thread {
                         if (texKey == null) {
                             Image im = s.getCustomTexture();
                             if (im == null) {
-                                StData.LOG.println("[RENDER]: sprite [" + i + ":" + texKey + "]:MODE_CustomTexture: no texture!", "D");
+                                StData.LOG.println("[RENDER]: sprite [" + i + ":" + s.getClass().getCanonicalName() + "]:MODE_CustomTexture: no texture!", "D");
                             } else {
                                 G2D.drawImage(im, s.getX(), s.getY(), null);
                             }
@@ -262,8 +261,7 @@ public class RenderThread extends Thread {
     }
 
     private void drawSpriteWrappers(SpriteWrapper[] array, Graphics2D G2D) {
-        for (int i = 0; i < array.length; i++) {
-            SpriteWrapper s = array[i];
+        for (SpriteWrapper s : array) {
             if (s.enabled) {
                 if (s.doCustomRender()) {
                     s.customRender(G2D);

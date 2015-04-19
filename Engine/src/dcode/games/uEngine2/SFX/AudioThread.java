@@ -52,7 +52,7 @@ public class AudioThread extends Thread {
                         nextTime = System.nanoTime() + timeStep;
                     }
                     currentTime = System.nanoTime();
-                } catch (InterruptedException ex) {
+                } catch (InterruptedException ignored) {
                 }
             }
 

@@ -33,7 +33,7 @@ package dcode.games.uEngine2.SFX.tslib.internal;
  *
  * @author Finn Kuusisto
  */
-public interface MusicReference {
+interface MusicReference {
 
     /**
      * Get the playing setting of this MusicReference.

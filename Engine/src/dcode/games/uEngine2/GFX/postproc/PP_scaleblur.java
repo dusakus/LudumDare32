@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  */
 public class PP_scaleblur implements IGrfPostProcessor {
 
-    public float scale = 1F;
+    private float scale = 1F;
 
     public PP_scaleblur(float modScale) {
         scale = modScale;

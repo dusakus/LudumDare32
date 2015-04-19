@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public abstract class Sprite {
     protected int x = -100, y = -100, z = 0;
-    protected String textureKey;
+    String textureKey;
 
     //return coordinates
     public int getX() {

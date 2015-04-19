@@ -6,10 +6,10 @@ import java.util.Map;
 /**
  * Created by dusakus on 09.03.15.
  */
-public class LangContainer {
+class LangContainer {
     public String langId;
 
-    LangTreeBranch LTB;
+    private LangTreeBranch LTB;
 
     public LangContainer(String language) {
         langId = language;

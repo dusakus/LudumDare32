@@ -33,7 +33,7 @@ package dcode.games.uEngine2.SFX.tslib.internal;
  *
  * @author Finn Kuusisto
  */
-public interface SoundReference {
+interface SoundReference {
 
     /**
      * Get the ID of the Sound that produced this SoundReference.

@@ -18,11 +18,10 @@ import java.awt.*;
  * @author dusakus
  */
 public class SpriteWrapper extends Sprite implements ILogicTask {
-    public boolean shiftOrReplace = true; // true for shift, false for replace;
-    public int spriteId;
-    public Sprite localSprite;
-
     public boolean enabled = false;
+    private boolean shiftOrReplace = true; // true for shift, false for replace;
+    private int spriteId;
+    private Sprite localSprite;
     private SpriteLogicTask slt;
     private int tick;
 

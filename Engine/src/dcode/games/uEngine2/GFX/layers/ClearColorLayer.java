@@ -29,6 +29,6 @@ public class ClearColorLayer implements ILayer {
 
     @Override
     public boolean renderMe() {
-        return false;
+        return true;
     }
 }
