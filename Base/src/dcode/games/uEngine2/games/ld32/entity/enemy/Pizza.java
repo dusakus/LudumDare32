@@ -1,26 +1,31 @@
 package dcode.games.uEngine2.games.ld32.entity.enemy;
 
+import dcode.games.uEngine2.GFX.sprites.Sprite;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.LStData;
 import dcode.games.uEngine2.games.ld32.entity.IEntityLogic;
 import dcode.games.uEngine2.games.ld32.parts.Task_DelayedDamage;
 import dcode.games.uEngine2.games.ld32.world.WorldEntity;
 import dcode.games.uEngine2.tools.numbarTools;
 
-/**
- * Created by dusakus on 18.04.15.
- */
-public class Potato implements IEntityLogic {
+import java.awt.*;
 
-	protected PotatoAnimator pa;
-	protected PotatoAIcore pai;
+/**
+ * Created by dusakus on 20.04.15.
+ */
+public class Pizza implements IEntityLogic {
+
+
+	protected PizzaAnimator pa;
+	protected PizzaAIcore pai;
 	private WorldEntity WE;
 	private boolean active = true;
 
 	@Override
 	public void initializeLogic() {
-		pa = new PotatoAnimator(this);
-		pai = new PotatoAIcore(this);
+		pa = new PizzaAnimator(this);
+		pai = new PizzaAIcore(this);
 		StData.currentGC.currentLT.registerBasic(pa);
 		StData.currentGC.currentLT.registerBasic(pai);
 	}
@@ -41,7 +46,7 @@ public class Potato implements IEntityLogic {
 	}
 
 	private void tryAttack() {
-		StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 6, true, WE.getIWX() - 10, WE.getIWY() - 3, 20, 6));
+		StData.currentGC.currentLT.registerBasic(new PizzaAttack(this, LStData.GL.getPlayer().inRoomX, LStData.GL.getPlayer().inRoomY));
 	}
 
 	private void jump() {
@@ -51,7 +56,7 @@ public class Potato implements IEntityLogic {
 		WE.jump(-1, 1, 15);
 	}
 
-	private class PotatoAIcore implements ILogicTask {
+	private class PizzaAIcore implements ILogicTask {
 
 		public boolean playerSpotted = false;
 		public boolean playerClose = false;
@@ -59,11 +64,11 @@ public class Potato implements IEntityLogic {
 		public boolean imStuck = false;
 		public boolean imAttacking = false;
 		private int ticksToWait = 120;
-		private Potato target;
+		private Pizza target;
 		private int lastX = -1, lastY = -1;
 
 
-		public PotatoAIcore(Potato potato) {
+		public PizzaAIcore(Pizza potato) {
 			target = potato;
 		}
 
@@ -109,7 +114,7 @@ public class Potato implements IEntityLogic {
 		}
 
 		private void checkPlayerSpotted() {
-			if (numbarTools.checkBetween(StData.currentGC.currentSC.sprites[2].getX(), target.WE.getX() - 120, target.WE.getX() + 120)) {
+			if (numbarTools.checkBetween(StData.currentGC.currentSC.sprites[2].getX(), target.WE.getX() - 300, target.WE.getX() + 300)) {
 				playerSpotted = true;
 			}
 		}
@@ -133,13 +138,13 @@ public class Potato implements IEntityLogic {
 		private void checkPlayerClose() {
 			this.playerClose = numbarTools.checkBetween(
 					StData.currentGC.currentSC.sprites[2].getX(),
-					target.WE.getX() - 16,
-					target.WE.getX() + 16)
+					target.WE.getX() - 200,
+					target.WE.getX() + 200)
 					&&
 					numbarTools.checkBetween(
 							StData.currentGC.currentSC.sprites[2].getY(),
-							target.WE.getY() - 4,
-							target.WE.getY() + 4);
+							target.WE.getY() - 80,
+							target.WE.getY() + 80);
 
 		}
 
@@ -159,9 +164,9 @@ public class Potato implements IEntityLogic {
 		}
 	}
 
-	private class PotatoAnimator implements ILogicTask {
+	private class PizzaAnimator implements ILogicTask {
 
-		private Potato target;
+		private Pizza target;
 
 		private int animDelay;
 		private int animFrame;
@@ -169,7 +174,7 @@ public class Potato implements IEntityLogic {
 
 		private int lastX = -1, lastY = -1;
 
-		public PotatoAnimator(Potato potato) {
+		public PizzaAnimator(Pizza potato) {
 			target = potato;
 		}
 
@@ -186,19 +191,18 @@ public class Potato implements IEntityLogic {
 					if (lastX < target.WE.getX()) facingMod = 10;
 					else if (lastX > target.WE.getX()) facingMod = 0;
 
-					target.WE.texKey = "EnPOTR";
+					target.WE.texKey = "EnPIZS";
 					//StData.LOG.println("Anim: set to EnPOTR");
-					if (animFrame > 6) animFrame = 1;
+					if (animFrame > 4) animFrame = 1;
 				} else {
 					//StData.LOG.println("Anim: set to EnPOTS");
-					target.WE.texKey = "EnPOTS";
+					target.WE.texKey = "EnPIZS";
 					if (animFrame > 4) animFrame = 1;
 				}
 				if (target.pai.imAttacking) {
-					target.WE.texKey = "EnPOTA";
+					target.WE.texKey = "EnPIZA";
 					//StData.LOG.println("Anim: set to EnPOTA");
-					if (animFrame > 5) animFrame = 1;
-					target.pai.imAttacking = false;
+					if (animFrame > 4) animFrame = 4;
 				}
 				animDelay = 4;
 				lastX = target.WE.getX();
@@ -217,6 +221,69 @@ public class Potato implements IEntityLogic {
 		@Override
 		public boolean doRepeat() {
 			return target.active;
+		}
+	}
+
+	private class PizzaAttack extends Sprite implements ILogicTask {
+		int ticksLeft = 40;
+		private Pizza onion;
+		private int inRoomX;
+		private int inRoomY;
+		private int step = 1;
+
+
+		public PizzaAttack(Pizza onion, int inRoomX, int inRoomY) {
+			this.onion = onion;
+			this.inRoomX = inRoomX;
+			this.inRoomY = inRoomY;
+			StData.currentGC.currentSC.sprites[117] = this;
+			StData.currentGC.currentSC.sprites_front[117] = 117;
+		}
+
+		@Override
+		public boolean isReady() {
+			return true;
+		}
+
+		@Override
+		public void perform() {
+			ticksLeft--;
+			onion.WE.textureVariation = step;
+
+			if (ticksLeft > 10 && ticksLeft < 50) {
+				float r = 50 - ticksLeft;
+				r = (float) ((r * 2.5) / 100);
+				y = (int) (numbarTools.mod(0 - inRoomY) * r) - LStData.renderOffsetY;
+				x = inRoomX - LStData.renderOffsetX;
+			}
+
+			if (ticksLeft == 1) {
+				step++;
+				StData.currentGC.currentSC.sprites[117] = null;
+				step = 1;
+				onion.pai.imAttacking = false;
+				StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 1, true, inRoomX - 6, inRoomY - 199, 12, 200));
+			}
+		}
+
+		@Override
+		public boolean doRepeat() {
+			return ticksLeft > 0;
+		}
+
+		@Override
+		public Image getCustomTexture() {
+			return StData.resources.grf.getTexture("EnPIZB" + (ticksLeft / 5));
+		}
+
+		@Override
+		public boolean doCustomRender() {
+			return false;
+		}
+
+		@Override
+		public void customRender(Graphics2D G) {
+
 		}
 	}
 }

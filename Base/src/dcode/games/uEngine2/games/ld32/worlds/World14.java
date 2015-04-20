@@ -2,17 +2,16 @@ package dcode.games.uEngine2.games.ld32.worlds;
 
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.StData;
-import dcode.games.uEngine2.games.ld32.InHandler;
 import dcode.games.uEngine2.games.ld32.LStData;
 import dcode.games.uEngine2.games.ld32.world.GameWorld;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by dusakus on 20.04.15.
  */
-public class World4 extends PWorld {
+public class World14 extends PWorld {
+
 	@Override
 	public String getTexID() {
 		return "WORLD";
@@ -20,8 +19,8 @@ public class World4 extends PWorld {
 
 	@Override
 	public void loadYerself(GameWorld target) {
-		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-004.png", "WORLD"));
-		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-004_DATA.png", "WORLDD"));
+		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-014.png", "WORLD"));
+		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-014_DATA.png", "WORLDD"));
 
 
 		target.wp.inRoomY = 100;
@@ -41,12 +40,19 @@ public class World4 extends PWorld {
 				LStData.currentStatus = 209;
 				break;
 			case 1:
-				LStData.GL.getPlayer().hazPhysics = false;
-				if (InHandler.instance.isKeyPressed(KeyEvent.VK_UP)) LStData.GL.getPlayer().inRoomY -= 2;
-				if (InHandler.instance.isKeyPressed(KeyEvent.VK_DOWN)) LStData.GL.getPlayer().inRoomY += 2;
+				LStData.currentStatus = 209;
+				LStData.GL.currentLevel++;
 				break;
 			case 2:
 				LStData.GL.getPlayer().hazPhysics = true;
+				break;
+			case 10:
+				LStData.GL.getPlayer().getDamaged(10);
+				break;
+			case 8:
+				LStData.healthStat = 0;
+				LStData.GL.getPlayer().getDamaged(9999999);
+
 		}
 
 	}

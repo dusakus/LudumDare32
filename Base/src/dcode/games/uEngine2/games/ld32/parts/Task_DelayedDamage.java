@@ -1,6 +1,7 @@
 package dcode.games.uEngine2.games.ld32.parts;
 
 import dcode.games.uEngine2.LOGIC.ILogicTask;
+import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.LStData;
 
 import java.awt.*;
@@ -35,6 +36,7 @@ public class Task_DelayedDamage implements ILogicTask {
 					LStData.GL.getPlayer().getDamaged(damage);
 				}
 			} else {
+				StData.LOG.println("Damaging area " + area.toString() + " with " + damage);
 				LStData.GL.damageArea(area, damage);
 			}
 		}

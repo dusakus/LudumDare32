@@ -77,4 +77,9 @@ public class GameWorld {
         else if (c.getRed() == 0) return false;
         else return worldProc.checkUnlocked(c.getRed());
     }
+
+    public void killEntity(WorldEntity we) {
+        we.unregister();
+        entities.remove(we);
+    }
 }

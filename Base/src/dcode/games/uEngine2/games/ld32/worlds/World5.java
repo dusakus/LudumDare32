@@ -4,16 +4,15 @@ import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.InHandler;
 import dcode.games.uEngine2.games.ld32.LStData;
-import dcode.games.uEngine2.games.ld32.entity.IEntityData;
 import dcode.games.uEngine2.games.ld32.world.GameWorld;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 /**
- * Created by dusakus on 19.04.15.
+ * Created by dusakus on 20.04.15.
  */
-public class World2 extends PWorld {
+public class World5 extends PWorld {
 	@Override
 	public String getTexID() {
 		return "WORLD";
@@ -21,8 +20,8 @@ public class World2 extends PWorld {
 
 	@Override
 	public void loadYerself(GameWorld target) {
-		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-002.png", "WORLD"));
-		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-002_DATA.png", "WORLDD"));
+		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-005.png", "WORLD"));
+		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/lvl-005_DATA.png", "WORLDD"));
 
 
 		target.wp.inRoomY = 100;
@@ -41,47 +40,14 @@ public class World2 extends PWorld {
 			case 0:
 				LStData.currentStatus = 209;
 				break;
-			case 1:
+			case 2:
 				LStData.GL.getPlayer().hazPhysics = false;
 				if (InHandler.instance.isKeyPressed(KeyEvent.VK_UP)) LStData.GL.getPlayer().inRoomY -= 2;
 				if (InHandler.instance.isKeyPressed(KeyEvent.VK_DOWN)) LStData.GL.getPlayer().inRoomY += 2;
 				break;
-			case 2:
+			case 1:
 				LStData.GL.getPlayer().hazPhysics = true;
 		}
-	}
 
-	private class PotatoDATA implements IEntityData {
-
-		Point p;
-
-		public PotatoDATA(int x, int y) {
-			p = new Point(x, y);
-		}
-
-		@Override
-		public int getType() {
-			return 0;
-		}
-
-		@Override
-		public Point getInitialLocation() {
-			return p;
-		}
-
-		@Override
-		public String getTextureId() {
-			return "EnPOT";
-		}
-
-		@Override
-		public int getDepth() {
-			return 0;
-		}
-
-		@Override
-		public int getHealth() {
-			return 200;
-		}
 	}
 }

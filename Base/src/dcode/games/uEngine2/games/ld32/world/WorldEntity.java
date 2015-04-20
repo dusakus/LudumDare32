@@ -147,6 +147,12 @@ public class WorldEntity extends Sprite {
 		if (this.entitydata.getType() != TYPE_STATIC && area.contains(this.x, this.y)) {
 			health -= damage;
 		}
+		if (health <= 0) {
+			this.entityLogic.unload();
+			//active = false;
+			StData.currentGC.currentLT.registerBasic(new DeatchAnim(this));
+			StData.LOG.println("ENEMY DIED");
+		}
 	}
 
 	public int getIWX() {
@@ -275,6 +281,43 @@ public class WorldEntity extends Sprite {
 		@Override
 		public boolean doRepeat() {
 			return tickCount >= 0;
+		}
+	}
+
+	private class DeatchAnim implements ILogicTask {
+		private int ticksLeft = 60;
+		private boolean visible = true;
+		private int tmp;
+		private WorldEntity we;
+
+		public DeatchAnim(WorldEntity w) {
+			we = w;
+			tmp = we.y;
+		}
+
+		@Override
+		public boolean isReady() {
+			return true;
+		}
+
+		@Override
+		public void perform() {
+			ticksLeft--;
+			if (visible) {
+				visible = false;
+				we.y = -1000;
+			} else {
+				visible = true;
+				we.y = tmp;
+			}
+			if (ticksLeft <= 1) {
+				LStData.GL.killEntity(we);
+			}
+		}
+
+		@Override
+		public boolean doRepeat() {
+			return ticksLeft > 0;
 		}
 	}
 

@@ -18,10 +18,10 @@ public class LD32_INIT {
         gs.height = 150;
         gs.scale = 4;
 
-        gs.spriteTableSize = 101;
+        gs.spriteTableSize = 120;
         gs.enableSpriteWrappers = true;
         gs.postProcCount = 1;
-        gs.spriteLayerSize = 101;
+        gs.spriteLayerSize = 120;
 
         gs.soundEnabled = false;
 

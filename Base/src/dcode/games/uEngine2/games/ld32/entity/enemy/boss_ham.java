@@ -2,32 +2,53 @@ package dcode.games.uEngine2.games.ld32.entity.enemy;
 
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.entity.IEntityData;
 import dcode.games.uEngine2.games.ld32.entity.IEntityLogic;
-import dcode.games.uEngine2.games.ld32.parts.Task_DelayedDamage;
 import dcode.games.uEngine2.games.ld32.world.WorldEntity;
 import dcode.games.uEngine2.tools.numbarTools;
 
-/**
- * Created by dusakus on 18.04.15.
- */
-public class Potato implements IEntityLogic {
+import java.awt.*;
 
-	protected PotatoAnimator pa;
-	protected PotatoAIcore pai;
+/**
+ * Created by dusakus on 20.04.15.
+ */
+public class boss_ham implements IEntityData, IEntityLogic {
+	boolean active = true;
 	private WorldEntity WE;
-	private boolean active = true;
+
+	@Override
+	public int getType() {
+		return 20;
+	}
+
+	@Override
+	public Point getInitialLocation() {
+		return new Point(500, 100);
+	}
+
+	@Override
+	public String getTextureId() {
+		return "ERR";
+	}
+
+	@Override
+	public int getDepth() {
+		return 0;
+	}
+
+	@Override
+	public int getHealth() {
+		return 0;
+	}
 
 	@Override
 	public void initializeLogic() {
-		pa = new PotatoAnimator(this);
-		pai = new PotatoAIcore(this);
-		StData.currentGC.currentLT.registerBasic(pa);
-		StData.currentGC.currentLT.registerBasic(pai);
+
 	}
 
 	@Override
 	public boolean shouldCheck() {
-		return true;
+		return WE == null;
 	}
 
 	@Override
@@ -40,30 +61,19 @@ public class Potato implements IEntityLogic {
 		active = false;
 	}
 
-	private void tryAttack() {
-		StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 6, true, WE.getIWX() - 10, WE.getIWY() - 3, 20, 6));
-	}
-
-	private void jump() {
-		WE.jump(-1, 1, 60);
-		WE.jump(-1, 1, 40);
-		WE.jump(-1, 1, 20);
-		WE.jump(-1, 1, 15);
-	}
-
 	private class PotatoAIcore implements ILogicTask {
 
 		public boolean playerSpotted = false;
 		public boolean playerClose = false;
-		public boolean imMoving = false;
 		public boolean imStuck = false;
 		public boolean imAttacking = false;
+		boolean imJumping = false;
 		private int ticksToWait = 120;
-		private Potato target;
+		private boss_ham target;
 		private int lastX = -1, lastY = -1;
 
 
-		public PotatoAIcore(Potato potato) {
+		public PotatoAIcore(boss_ham potato) {
 			target = potato;
 		}
 
@@ -109,7 +119,7 @@ public class Potato implements IEntityLogic {
 		}
 
 		private void checkPlayerSpotted() {
-			if (numbarTools.checkBetween(StData.currentGC.currentSC.sprites[2].getX(), target.WE.getX() - 120, target.WE.getX() + 120)) {
+			if (numbarTools.checkBetween(StData.currentGC.currentSC.sprites[2].getX(), target.WE.getX() - 300, target.WE.getX() + 300)) {
 				playerSpotted = true;
 			}
 		}
@@ -126,8 +136,10 @@ public class Potato implements IEntityLogic {
 		}
 
 		private void goToPlayer() {
-			if (StData.currentGC.currentSC.sprites[2].getX() > target.WE.getX()) target.WE.tryMoving(1, 2, 5);
-			else if (StData.currentGC.currentSC.sprites[2].getX() < target.WE.getX()) target.WE.tryMoving(-1, 2, 5);
+			if (imJumping) {
+				if (StData.currentGC.currentSC.sprites[2].getX() > target.WE.getX()) target.WE.tryMoving(1, 2, 2);
+				else if (StData.currentGC.currentSC.sprites[2].getX() < target.WE.getX()) target.WE.tryMoving(-1, 2, 2);
+			}
 		}
 
 		private void checkPlayerClose() {
@@ -219,4 +231,5 @@ public class Potato implements IEntityLogic {
 			return target.active;
 		}
 	}
+
 }

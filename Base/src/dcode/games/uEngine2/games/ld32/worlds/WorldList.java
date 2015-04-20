@@ -15,6 +15,11 @@ public class WorldList {
         worldlist[2] = new World2();
         worldlist[3] = new World3();
         worldlist[4] = new World4();
+        worldlist[5] = new World5();
+        worldlist[6] = new World11();
+        worldlist[7] = new World12();
+        worldlist[8] = new World13();
+        worldlist[9] = new World14();
     }
 
 }

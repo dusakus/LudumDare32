@@ -2,7 +2,6 @@ package dcode.games.uEngine2.games.ld32;
 
 import dcode.games.uEngine2.GFX.ScreenContent;
 import dcode.games.uEngine2.GFX.layers.ClearColorLayer;
-import dcode.games.uEngine2.GFX.postproc.PP_scaleblur;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.render.Layer_StatusOverlay;
@@ -26,11 +25,10 @@ import static dcode.games.uEngine2.games.ld32.LStData.*;
  */
 public class GameLogic implements ILogicTask {
 
+	public int currentLevel = 1;
 	private ScreenContent inGameSC;
 	private GameWorld currentGameWorld;
 	private WorldPlayer player;
-
-	private int currentLevel = 1;
 
 	@Override
 	public boolean isReady() {
@@ -47,6 +45,11 @@ public class GameLogic implements ILogicTask {
 				currentGameWorld.tick();
 				inputTick();
 				if (invincTicks > 0) invincTicks--;
+				if (healthStat <= 0) {
+					currentStatus = 1201;
+					currentMode = MODE_MENU_MAIN;
+
+				}
 				break;
 			case 1:
 				LOG.println("[GL] Entering game_play environment");
@@ -60,7 +63,6 @@ public class GameLogic implements ILogicTask {
 			case 11:
 				LOG.println("[GL] inGameSC is null, initializing...", "D");
 				inGameSC = new ScreenContent();
-				inGameSC.postProcessors[0] = new PP_scaleblur(1.0085f);
 				currentStatus++;
 				break;
 			case 12:
@@ -117,6 +119,7 @@ public class GameLogic implements ILogicTask {
 		if (InHandler.instance.isKeyPressed(KeyEvent.VK_LEFT)) player.goLeft();
 		if (InHandler.instance.isKeyPressed(KeyEvent.VK_RIGHT)) player.goRight();
 		if (InHandler.instance.isKeyPressed(KeyEvent.VK_UP)) player.goJump();
+		if (InHandler.instance.isKeyPressed(KeyEvent.VK_Z)) player.tryAttacking();
 		if (InHandler.instance.isKeyPressed_SHIFT()) {
 			//Debug tools
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F5)) {
@@ -129,6 +132,7 @@ public class GameLogic implements ILogicTask {
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F1)) player.setItemModifier("N");
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F2)) player.setItemModifier("C");
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F3)) player.setItemModifier("M");
+			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F9)) ammoStat = maxAmmo;
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F10)) healthStat = maxHealth;
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F11) && currentStatus == 201) {
 				currentLevel--;
@@ -173,5 +177,9 @@ public class GameLogic implements ILogicTask {
 		for (WorldEntity we : currentGameWorld.entities) {
 			if (we != null) we.damageArea(area, damage);
 		}
+	}
+
+	public void killEntity(WorldEntity we) {
+		currentGameWorld.killEntity(we);
 	}
 }

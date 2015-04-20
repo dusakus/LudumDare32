@@ -19,10 +19,10 @@ public class LStData {
     public static int roomHeight;
     public static int renderOffsetX = 0;
     public static int renderOffsetY = 0;
-    public static int maxHealth = 200;
-    public static int healthStat = 200;
-    public static int maxAmmo = 32;
-    public static int ammoStat = 2;
+    public static int maxHealth = 400;
+    public static int healthStat = 400;
+    public static int maxAmmo = 16;
+    public static int ammoStat = 16;
     public static int invincTicks = 2;
 }
 

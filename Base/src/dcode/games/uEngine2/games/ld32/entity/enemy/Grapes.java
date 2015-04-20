@@ -1,26 +1,30 @@
 package dcode.games.uEngine2.games.ld32.entity.enemy;
 
+import dcode.games.uEngine2.GFX.sprites.Sprite;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.LStData;
 import dcode.games.uEngine2.games.ld32.entity.IEntityLogic;
 import dcode.games.uEngine2.games.ld32.parts.Task_DelayedDamage;
 import dcode.games.uEngine2.games.ld32.world.WorldEntity;
 import dcode.games.uEngine2.tools.numbarTools;
 
-/**
- * Created by dusakus on 18.04.15.
- */
-public class Potato implements IEntityLogic {
+import java.awt.*;
 
-	protected PotatoAnimator pa;
-	protected PotatoAIcore pai;
+/**
+ * Created by dusakus on 20.04.15.
+ */
+public class Grapes implements IEntityLogic {
+
+	protected onionAnimator pa;
+	protected onionAICore pai;
 	private WorldEntity WE;
 	private boolean active = true;
 
 	@Override
 	public void initializeLogic() {
-		pa = new PotatoAnimator(this);
-		pai = new PotatoAIcore(this);
+		pa = new onionAnimator(this);
+		pai = new onionAICore(this);
 		StData.currentGC.currentLT.registerBasic(pa);
 		StData.currentGC.currentLT.registerBasic(pai);
 	}
@@ -41,7 +45,9 @@ public class Potato implements IEntityLogic {
 	}
 
 	private void tryAttack() {
-		StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 6, true, WE.getIWX() - 10, WE.getIWY() - 3, 20, 6));
+		StData.currentGC.currentLT.registerBasic(new OnionAttack(this, WE.getIWX(), WE.getIWY()));
+		this.unload();
+		WE.setY(1000);
 	}
 
 	private void jump() {
@@ -51,7 +57,7 @@ public class Potato implements IEntityLogic {
 		WE.jump(-1, 1, 15);
 	}
 
-	private class PotatoAIcore implements ILogicTask {
+	private class onionAICore implements ILogicTask {
 
 		public boolean playerSpotted = false;
 		public boolean playerClose = false;
@@ -59,11 +65,11 @@ public class Potato implements IEntityLogic {
 		public boolean imStuck = false;
 		public boolean imAttacking = false;
 		private int ticksToWait = 120;
-		private Potato target;
+		private Grapes target;
 		private int lastX = -1, lastY = -1;
 
 
-		public PotatoAIcore(Potato potato) {
+		public onionAICore(Grapes potato) {
 			target = potato;
 		}
 
@@ -78,7 +84,7 @@ public class Potato implements IEntityLogic {
 				ticksToWait--;
 			} else {
 				if (imStuck) {
-					target.jump();
+					//target.jump();
 					ticksToWait = 20;
 				}
 				if (playerSpotted) {
@@ -86,13 +92,13 @@ public class Potato implements IEntityLogic {
 					if (playerClose) {
 						target.tryAttack();
 						imAttacking = true;
-						ticksToWait = 30;
+						ticksToWait = 1000;
 					} else {
 						if (numbarTools.checkBetween(
 								StData.currentGC.currentSC.sprites[2].getX(),
 								target.WE.getX() - 16,
 								target.WE.getX() + 16)) {
-							target.jump();
+							//target.jump();
 							ticksToWait = 12;
 						} else {
 							checkStuck();
@@ -109,7 +115,7 @@ public class Potato implements IEntityLogic {
 		}
 
 		private void checkPlayerSpotted() {
-			if (numbarTools.checkBetween(StData.currentGC.currentSC.sprites[2].getX(), target.WE.getX() - 120, target.WE.getX() + 120)) {
+			if (numbarTools.checkBetween(StData.currentGC.currentSC.sprites[2].getX(), target.WE.getX() - 150, target.WE.getX() + 150)) {
 				playerSpotted = true;
 			}
 		}
@@ -126,20 +132,20 @@ public class Potato implements IEntityLogic {
 		}
 
 		private void goToPlayer() {
-			if (StData.currentGC.currentSC.sprites[2].getX() > target.WE.getX()) target.WE.tryMoving(1, 2, 5);
-			else if (StData.currentGC.currentSC.sprites[2].getX() < target.WE.getX()) target.WE.tryMoving(-1, 2, 5);
+			if (StData.currentGC.currentSC.sprites[2].getX() > target.WE.getX()) target.WE.tryMoving(1, 1, 4);
+			else if (StData.currentGC.currentSC.sprites[2].getX() < target.WE.getX()) target.WE.tryMoving(-1, 1, 4);
 		}
 
 		private void checkPlayerClose() {
 			this.playerClose = numbarTools.checkBetween(
 					StData.currentGC.currentSC.sprites[2].getX(),
-					target.WE.getX() - 16,
-					target.WE.getX() + 16)
+					target.WE.getX() - 20,
+					target.WE.getX() + 20)
 					&&
 					numbarTools.checkBetween(
 							StData.currentGC.currentSC.sprites[2].getY(),
-							target.WE.getY() - 4,
-							target.WE.getY() + 4);
+							target.WE.getY() - 20,
+							target.WE.getY() + 20);
 
 		}
 
@@ -159,9 +165,9 @@ public class Potato implements IEntityLogic {
 		}
 	}
 
-	private class PotatoAnimator implements ILogicTask {
+	private class onionAnimator implements ILogicTask {
 
-		private Potato target;
+		private Grapes target;
 
 		private int animDelay;
 		private int animFrame;
@@ -169,7 +175,7 @@ public class Potato implements IEntityLogic {
 
 		private int lastX = -1, lastY = -1;
 
-		public PotatoAnimator(Potato potato) {
+		public onionAnimator(Grapes potato) {
 			target = potato;
 		}
 
@@ -186,16 +192,16 @@ public class Potato implements IEntityLogic {
 					if (lastX < target.WE.getX()) facingMod = 10;
 					else if (lastX > target.WE.getX()) facingMod = 0;
 
-					target.WE.texKey = "EnPOTR";
+					target.WE.texKey = "EnGRAR";
 					//StData.LOG.println("Anim: set to EnPOTR");
-					if (animFrame > 6) animFrame = 1;
+					if (animFrame > 4) animFrame = 1;
 				} else {
 					//StData.LOG.println("Anim: set to EnPOTS");
-					target.WE.texKey = "EnPOTS";
+					target.WE.texKey = "EnGRAR";
 					if (animFrame > 4) animFrame = 1;
 				}
 				if (target.pai.imAttacking) {
-					target.WE.texKey = "EnPOTA";
+					target.WE.texKey = "EnGRAE";
 					//StData.LOG.println("Anim: set to EnPOTA");
 					if (animFrame > 5) animFrame = 1;
 					target.pai.imAttacking = false;
@@ -217,6 +223,98 @@ public class Potato implements IEntityLogic {
 		@Override
 		public boolean doRepeat() {
 			return target.active;
+		}
+	}
+
+	private class OnionAttack extends Sprite implements ILogicTask {
+		int ticksLeft = 60;
+		private Grapes onion;
+		private int inRoomX;
+		private int inRoomY;
+		private int step = 1;
+		private int dirMod = 0;
+
+
+		public OnionAttack(Grapes onion, int inRoomX, int inRoomY) {
+			this.onion = onion;
+			this.inRoomX = inRoomX;
+			this.inRoomY = inRoomY;
+			StData.currentGC.currentSC.sprites[118] = this;
+			StData.currentGC.currentSC.sprites_front[118] = 118;
+		}
+
+		@Override
+		public boolean isReady() {
+			return true;
+		}
+
+		@Override
+		public void perform() {
+			ticksLeft--;
+			onion.WE.textureVariation = step;
+			switch (ticksLeft) {
+				case 60:
+					step = 1;
+					onion.WE.unregister();
+					break;
+				case 55:
+					step++;
+					break;
+				case 50:
+					step++;
+					break;
+				case 45:
+					step++;
+					break;
+				case 40:
+					step++;
+					break;
+				case 35:
+					step++;
+					break;
+				case 30:
+					step++;
+					break;
+				case 25:
+					step = 1;
+					break;
+				case 1:
+					step++;
+					StData.currentGC.currentSC.sprites[118] = null;
+					step = 1;
+					break;
+			}
+
+			if (ticksLeft < 25 && ticksLeft > 9) {
+				step++;
+			}
+			if (ticksLeft < 25 && ticksLeft > 9) {
+				StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(150, 1, true, inRoomX - 30, inRoomY - 30, 64, 64));
+			}
+		}
+
+		@Override
+		public boolean doRepeat() {
+			return ticksLeft > 0;
+		}
+
+		@Override
+		public Image getCustomTexture() {
+			return null;
+		}
+
+		@Override
+		public boolean doCustomRender() {
+			return true;
+		}
+
+		@Override
+		public void customRender(Graphics2D G) {
+			if (ticksLeft > 25) {
+				G.drawImage(StData.resources.grf.getTexture("EnGRAE" + (step + dirMod)), inRoomX - LStData.renderOffsetX - 15, inRoomY - LStData.renderOffsetY - 28, null);
+			} else {
+				G.drawImage(StData.resources.grf.getTexture("EnGRAB" + (step + dirMod)), inRoomX - LStData.renderOffsetX - 31, inRoomY - LStData.renderOffsetY - 60, null);
+			}
 		}
 	}
 }

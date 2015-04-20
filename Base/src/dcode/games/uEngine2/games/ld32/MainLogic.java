@@ -11,6 +11,9 @@ import dcode.games.uEngine2.games.ld32.worlds.WorldList;
 import dcode.games.uEngine2.tools.ext.j2s.gifReader;
 import dcode.games.uEngine2.tools.ext.j2s.mirrorImage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static dcode.games.uEngine2.StData.LOG;
@@ -70,6 +73,8 @@ public class MainLogic implements ILogicTask {
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowLeft.png", "MARL"));
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowUp.png", "MARU"));
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowDown.png", "MARD"));
+
+						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/enemy/rbwframe.png", "EnONIR"));
 
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/TESTWORLD.png", "WORLD"));
 
@@ -146,10 +151,30 @@ public class MainLogic implements ILogicTask {
 			keys.add("EnPOTR");
 			names.add("grapes_explosion_ready.gif");
 			keys.add("EnGRAE");
+			names.add("grapes_explosion.gif");
+			keys.add("EnGRAB");
 			names.add("grapes_ruch.gif");
 			keys.add("EnGRAR");
 			names.add("pizza_float.gif");
 			keys.add("EnPIZS");
+			names.add("pizza_atak.gif");
+			keys.add("EnPIZA");
+			names.add("pizza_bomb_extension.gif");
+			keys.add("EnPIZB");
+			names.add("onion_idle.gif");
+			keys.add("EnONIS");
+			names.add("onion_rainbow_assault.gif");
+			keys.add("EnONIA");
+			names.add("hamburger_jump.gif");
+			keys.add("EnHAMS");
+			names.add("hamburger_laser.gif");
+			keys.add("EnHAMA");
+			names.add("fsm_float.gif");
+			keys.add("EnFSMS");
+			names.add("fsm_meat_armaggedon.gif");
+			keys.add("EnFSMA");
+			names.add("fsm_pasta_strike.gif");
+			keys.add("EnFSMa");
 
 			for (String s : names) {
 				StData.LOG.println("Loading enemy sprite " + s);
@@ -196,6 +221,10 @@ public class MainLogic implements ILogicTask {
 			keys.add("CM");
 			names.add("hero_jump_carrot.gif");
 			keys.add("CJ");
+			names.add("hero_carrot_attack.gif");
+			keys.add("CA");
+			names.add("hero_meat_strike.gif");
+			keys.add("MA");
 
 			for (String s : names) {
 				StData.LOG.println("Loading player sprite " + s);
@@ -205,9 +234,18 @@ public class MainLogic implements ILogicTask {
 					StData.LOG.println("Frame " + i + " as Pla" + keys.get(names.indexOf(s)) + (i + 1));
 					StData.resources.grf.registerTexture(gif.getFrame(i), "Pla" + keys.get(names.indexOf(s)) + (i + 1));
 					StData.LOG.println("Mirrored Frame " + i + " as Pla" + keys.get(names.indexOf(s)) + (i + 11));
-					StData.resources.grf.registerTexture(mirrorImage.mirror(gif.getFrame(i)), "Pla" + keys.get(names.indexOf(s)) + (i + 11));
+					if (i < 10)
+						StData.resources.grf.registerTexture(mirrorImage.mirror(gif.getFrame(i)), "Pla" + keys.get(names.indexOf(s)) + (i + 11));
 				}
 				StData.LOG.println("done");
+			}
+
+			try {
+				BufferedImage bf = ImageIO.read(getClass().getResourceAsStream("/dcode/games/uEngine2/games/ld32/res/gfx/sprite/player/carletleft.png"));
+				StData.resources.grf.registerTexture(bf, "CBULETL");
+				StData.resources.grf.registerTexture(mirrorImage.mirror(bf), "CBULETR");
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
 		}
