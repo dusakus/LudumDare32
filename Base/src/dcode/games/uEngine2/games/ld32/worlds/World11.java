@@ -1,6 +1,7 @@
 package dcode.games.uEngine2.games.ld32.worlds;
 
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
+import dcode.games.uEngine2.GFX.layers.ClearColorLayer;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.InHandler;
 import dcode.games.uEngine2.games.ld32.LStData;
@@ -24,6 +25,8 @@ public class World11 extends PWorld {
 		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/level11.png", "WORLD"));
 		StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/level11_map.png", "WORLDD"));
 
+		StData.currentGC.currentSC.layers_Background.clear();
+		StData.currentGC.currentSC.layers_Background.add(new ClearColorLayer(new Color(87, 88, 99)));
 
 		target.wp.inRoomY = 100;
 		target.wp.inRoomX = 100;
