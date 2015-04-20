@@ -22,6 +22,7 @@ public class GameWorld {
     PWorld worldProc;
 
     public GameWorld(int currentLevel) {
+        wp = LStData.GL.getPlayer();
         entities = new ArrayList<WorldEntity>();
         levelID = currentLevel;
         worldProc = WorldList.worldlist[levelID];
@@ -61,16 +62,17 @@ public class GameWorld {
         }
     }
 
-    private Color getDataAt(int inRoomX, int inRoomY) {
-        return new Color(255, 255, 255);
+    public Color getDataAt(int inRoomX, int inRoomY) {
+        return new Color(dataTexture.getRGB(wp.inRoomX, wp.inRoomY));
     }
 
     public void trigger(Color data) {
 
     }
 
-    public boolean collide(int x, int y) {
+    public boolean collide(int x, int y, boolean justFalling) {
         Color c = new Color(dataTexture.getRGB(x, y));
+        if (!justFalling && c.getGreen() == 255) return false;
         if (c.getRed() == 255) return true;
         else if (c.getRed() == 0) return false;
         else return worldProc.checkUnlocked(c.getRed());

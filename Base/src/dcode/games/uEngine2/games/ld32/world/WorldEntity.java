@@ -29,11 +29,14 @@ public class WorldEntity extends Sprite {
 	private boolean active = true;
 	private int spriteOffsetY;
 	private int spriteOffsetX;
+	private int errorCount = 0;
+	private int health = 100;
 
 
 	public WorldEntity(IEntityData ed, IEntityLogic el, int spriteOffsetX, int spriteOffsetY) {
 		entitydata = ed;
 		entityLogic = el;
+		health = ed.getHealth();
 		this.spriteOffsetY = spriteOffsetY;
 		this.spriteOffsetX = spriteOffsetX;
 		if (entityLogic == null) entityLogic = new DummyELogic();
@@ -50,7 +53,8 @@ public class WorldEntity extends Sprite {
 				SpriteId = i;
 				entityLogic.initializeLogic();
 				StData.LOG.println("[WE] registering sprite at " + i);  //It's registered, why no render?
-				StData.currentGC.currentLT.registerBasic(new entityPhysicsLogic(this, 1, 2));
+				if (entitydata.getType() != TYPE_STATIC)
+					StData.currentGC.currentLT.registerBasic(new entityPhysicsLogic(this, 1, 2));
 				break;
 			}
 		}
@@ -63,6 +67,7 @@ public class WorldEntity extends Sprite {
 
 	public void unregister() {
 		if (SpriteId < 10) return;
+		this.entityLogic.unload();
 		LStData.GL.getSContent().sprites[SpriteId] = null;
 		active = false;
 	}
@@ -83,7 +88,9 @@ public class WorldEntity extends Sprite {
 
 	@Override
 	public Image getCustomTexture() {
-		return StData.resources.grf.getTexture(texKey + textureVariation);
+		if (textureVariation > 0)
+			return StData.resources.grf.getTexture(texKey + textureVariation);
+		else return StData.resources.grf.getTexture(texKey);
 	}
 
 	@Override
@@ -113,7 +120,15 @@ public class WorldEntity extends Sprite {
 	}
 
 	private boolean checkCollisionAt(int x, int y) {
-		return LStData.GL.getColisionAt(x, y);
+		try {
+			boolean c = LStData.GL.getColisionAt(x, y, !canJumpNow);
+			errorCount = 0;
+			return c;
+		} catch (Exception e) {
+			errorCount++;
+			if (errorCount > 60) unregister();
+		}
+		return false;
 	}
 
 	private void tryMoveX(int dir) {
@@ -126,6 +141,20 @@ public class WorldEntity extends Sprite {
 			canJumpNow = false;
 			this.y += dir;
 		} else canJumpNow = true;
+	}
+
+	public void damageArea(Rectangle area, int damage) {
+		if (this.entitydata.getType() != TYPE_STATIC && area.contains(this.x, this.y)) {
+			health -= damage;
+		}
+	}
+
+	public int getIWX() {
+		return x;
+	}
+
+	public int getIWY() {
+		return y;
 	}
 
 	private class DummyELogic implements IEntityLogic {
@@ -141,6 +170,11 @@ public class WorldEntity extends Sprite {
 
 		@Override
 		public void update(WorldEntity we) {
+
+		}
+
+		@Override
+		public void unload() {
 
 		}
 	}

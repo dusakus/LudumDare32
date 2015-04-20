@@ -84,6 +84,11 @@ public class TestWorld extends PWorld {
         public int getDepth() {
             return 10;
         }
+
+        @Override
+        public int getHealth() {
+            return 0;
+        }
     }
 
     private class TestEntityLogic implements IEntityLogic {
@@ -114,6 +119,11 @@ public class TestWorld extends PWorld {
             } else {
                 motionDelay--;
             }
+        }
+
+        @Override
+        public void unload() {
+
         }
     }
 }

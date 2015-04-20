@@ -44,6 +44,11 @@ public class FollowerEntity implements IEntityData, IEntityLogic {
     }
 
     @Override
+    public int getHealth() {
+        return 100;
+    }
+
+    @Override
     public void initializeLogic() {
 
     }
@@ -68,5 +73,10 @@ public class FollowerEntity implements IEntityData, IEntityLogic {
         } else {
             motionDelay--;
         }
+    }
+
+    @Override
+    public void unload() {
+
     }
 }

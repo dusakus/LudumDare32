@@ -13,4 +13,6 @@ public interface IEntityData {
     String getTextureId();
 
     int getDepth();
+
+    int getHealth();
 }

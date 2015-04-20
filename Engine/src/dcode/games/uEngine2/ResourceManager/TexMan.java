@@ -74,7 +74,7 @@ public class TexMan {
         }
         if (tex == null) {
             tex = MISSINGTEX;
-            StData.LOG.println("TEXTURE NOT IN THE REGISTRY", "D");
+            StData.LOG.println("TEXTURE NOT IN THE REGISTRY [" + key + "]", "D");
         }
         return tex;
     }

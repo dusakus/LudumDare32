@@ -12,4 +12,6 @@ public interface IEntityLogic {
     boolean shouldCheck();
 
     void update(WorldEntity we);
+
+    void unload();
 }

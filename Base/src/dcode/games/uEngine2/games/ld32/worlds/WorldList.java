@@ -12,6 +12,9 @@ public class WorldList {
         StData.LOG.println("Filling World list");
         worldlist[0] = new TestWorld();
         worldlist[1] = new World1();
+        worldlist[2] = new World2();
+        worldlist[3] = new World3();
+        worldlist[4] = new World4();
     }
 
 }

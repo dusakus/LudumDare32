@@ -4,9 +4,11 @@ import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.GFX.sprites.Sprite;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.InHandler;
 import dcode.games.uEngine2.games.ld32.LStData;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by dusakus on 18.04.15.
@@ -19,7 +21,9 @@ public class WorldPlayer extends Sprite {
 	public int commandGoRight = 0;
 	public int commandGoJump = 0;
 	public boolean hazPhysics = false;
-	private String itemMod = "";
+	private boolean hadPhysics = false;
+	private String itemMod = "N";
+	private String animType = "S";
 	private int animId = 1;             // 1-4 facing left, 11-14 facing right
 	private int animFrame = 1;
 	private int lastInRoomX = 100;
@@ -32,6 +36,8 @@ public class WorldPlayer extends Sprite {
 
 		lastInRoomX = x;
 		lastInRoomY = y;
+
+		hazPhysics = true;
 	}
 
 	public static void loadTextures(PlayerItem item) {
@@ -41,6 +47,7 @@ public class WorldPlayer extends Sprite {
 			StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/player/PLA" + s + "FRAME" + i + ".png", "PLA" + s + i));             //Load textures for both facings
 			StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/player/PLA" + s + "FRAME" + (i + 10) + ".png", "PLA" + s + (i + 10)));
 		}
+
 	}
 
 	@Override
@@ -55,7 +62,7 @@ public class WorldPlayer extends Sprite {
 
 	@Override
 	public Image getCustomTexture() {
-		return StData.resources.grf.getTexture("PLA" + itemMod + animId);
+		return StData.resources.grf.getTexture("Pla" + itemMod + animType + animId);
 	}
 
 	@Override
@@ -97,44 +104,82 @@ public class WorldPlayer extends Sprite {
 
 	public void updatePlayer() {
 		if (animDelay == 0) {
+			animFrame++;
 			if (lastInRoomX != inRoomX || lastInRoomY != inRoomY) {
-				animFrame++;
-				if (animFrame > 4) animFrame = 1;
-				if (lastInRoomX < inRoomX) animId = animFrame + 10;
-				if (lastInRoomX > inRoomX) animId = animFrame;
+				animType = "M";
+				if (animFrame > 2) animFrame = 1;
+				if (lastInRoomX < inRoomX) animId = animFrame;
+				if (lastInRoomX > inRoomX) animId = animFrame + 10;
 				lastInRoomX = inRoomX;
 				lastInRoomY = inRoomY;
 				animDelay = 3;
+				if (!checkCollisionAt(inRoomX, inRoomY + 1, true)) {
+					animType = "J";
+					if (animId < 9) animId = 1;
+					else animId = 11;
+				}
+			} else {
+				animType = "S";
+				if (animFrame > 3) animFrame = 1;
+				if (animId < 9) animId = animFrame;
+				else animId = animFrame + 10;
+				animDelay = 12;
 			}
 		} else {
 			animDelay--;
 		}
 
-		if (!hazPhysics) {
+		if (hazPhysics && !hadPhysics) {
 			StData.currentGC.currentLT.registerBasic(new playerPhysicsLogic(this, 1, 2));
-			hazPhysics = true;
+			hadPhysics = true;
+		}
+		if (!hazPhysics) {
+			hadPhysics = false;
 		}
 
 		this.x = inRoomX - LStData.renderOffsetX;
 		this.y = inRoomY - LStData.renderOffsetY;
 	}
 
-	private boolean checkCollisionAt(int x, int y) {
-		return LStData.GL.getColisionAt(x, y);
+	private boolean checkCollisionAt(int x, int y, boolean juf) {
+		return LStData.GL.getColisionAt(x, y, juf);
 	}
 
 	private void tryMoveX(int dir) {
 		//TODO: Check collision first
-		if (!checkCollisionAt(inRoomX + dir, inRoomY))
+		if (!checkCollisionAt(inRoomX + dir, inRoomY, true)) {
 			this.inRoomX += dir;
+			LStData.GL.updateTriggers(inRoomX + dir, inRoomY);
+		} else if (!checkCollisionAt(inRoomX + dir, inRoomY - 1, true)) {
+			this.inRoomX += dir;
+			this.inRoomY--;
+			LStData.GL.updateTriggers(inRoomX + dir, inRoomY);
+		} else if (!checkCollisionAt(inRoomX + dir, inRoomY - 2, true)) {
+			this.inRoomX += dir;
+			this.inRoomY -= 2;
+			LStData.GL.updateTriggers(inRoomX + dir, inRoomY);
+		}
 
 	}
 
 	private void tryMoveY(int dir) {
 		//TODO: Check collision first
-		if (!checkCollisionAt(inRoomX, inRoomY + dir))
+		if (!checkCollisionAt(inRoomX, inRoomY + dir, !InHandler.instance.isKeyPressed(KeyEvent.VK_DOWN) && dir > 0)) {
 			this.inRoomY += dir;
+			LStData.GL.updateTriggers(inRoomX, inRoomY + dir);
+		}
+	}
 
+	public void setItemModifier(String n) {
+		this.itemMod = n;
+	}
+
+	public void getDamaged(int damage) {
+		//TODO: better damage handling
+		if (LStData.invincTicks == 0) {
+			LStData.invincTicks = 15;
+			LStData.healthStat -= damage;
+		}
 	}
 
 	private class playerMotionPerformer implements ILogicTask {

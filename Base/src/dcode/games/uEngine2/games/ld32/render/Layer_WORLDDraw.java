@@ -15,9 +15,9 @@ public class Layer_WORLDDraw implements ILayer {
     @Override
     public void draw(Graphics2D G2D) {
         G2D.drawImage(StData.resources.grf.getPartTexture("WORLD",  //TODO: get the WORLD texture
-                numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomX - 200, 0, LStData.roomWidth - 400),
-                numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomY - 150, 0, LStData.roomHeight - 300),
-                400, 300
+                numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomX - 100, 0, LStData.roomWidth - 200),
+                numbarTools.clamp(((WorldPlayer) StData.currentGC.currentSC.sprites[2]).inRoomY - 75, 0, LStData.roomHeight - 150),
+                200, 150
         ), 0, 0, null);
     }
 

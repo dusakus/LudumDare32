@@ -3,6 +3,7 @@ package dcode.games.uEngine2.games.ld32.entity.enemy;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.entity.IEntityLogic;
+import dcode.games.uEngine2.games.ld32.parts.Task_DelayedDamage;
 import dcode.games.uEngine2.games.ld32.world.WorldEntity;
 import dcode.games.uEngine2.tools.numbarTools;
 
@@ -34,8 +35,13 @@ public class Potato implements IEntityLogic {
 		WE = we;
 	}
 
-	private void tryAttack() {
+	@Override
+	public void unload() {
+		active = false;
+	}
 
+	private void tryAttack() {
+		StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 6, true, WE.getIWX() - 15, WE.getIWY() - 3, 30, 6));
 	}
 
 	private void jump() {
@@ -181,16 +187,16 @@ public class Potato implements IEntityLogic {
 					else if (lastX > target.WE.getX()) facingMod = 0;
 
 					target.WE.texKey = "EnPOTR";
-					StData.LOG.println("Anim: set to EnPOTR");
+					//StData.LOG.println("Anim: set to EnPOTR");
 					if (animFrame > 6) animFrame = 1;
 				} else {
-					StData.LOG.println("Anim: set to EnPOTS");
+					//StData.LOG.println("Anim: set to EnPOTS");
 					target.WE.texKey = "EnPOTS";
 					if (animFrame > 4) animFrame = 1;
 				}
 				if (target.pai.imAttacking) {
 					target.WE.texKey = "EnPOTA";
-					StData.LOG.println("Anim: set to EnPOTA");
+					//StData.LOG.println("Anim: set to EnPOTA");
 					if (animFrame > 5) animFrame = 1;
 					target.pai.imAttacking = false;
 				}

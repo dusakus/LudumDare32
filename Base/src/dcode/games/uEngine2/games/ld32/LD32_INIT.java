@@ -8,15 +8,15 @@ import dcode.games.uEngine2.*;
 public class LD32_INIT {
     public static void main(String[] args) {
         uGameSetup gs = new uGameSetup();
-        gs.FPS = 120;
+        gs.FPS = 60;
         gs.TPS_logic = 60;
         gs.TPS_MSX = 0;
         gs.TPS_BG = 60;
 
         gs.debug = true;
-        gs.width = 400;
-        gs.height = 300;
-        gs.scale = 2;
+        gs.width = 200;
+        gs.height = 150;
+        gs.scale = 4;
 
         gs.spriteTableSize = 101;
         gs.enableSpriteWrappers = true;
