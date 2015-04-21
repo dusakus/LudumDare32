@@ -276,6 +276,7 @@ public class Grapes implements IEntityLogic {
 					step++;
 					break;
 				case 25:
+					LStData.SND_boom.play();
 					step = 1;
 					break;
 				case 1:

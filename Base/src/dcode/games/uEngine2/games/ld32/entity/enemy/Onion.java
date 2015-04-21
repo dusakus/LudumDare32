@@ -257,6 +257,7 @@ public class Onion implements IEntityLogic {
 					break;
 				case 59:
 					step++;
+					LStData.SND_rlaser.play();
 					break;
 				case 21:
 					step = 16;

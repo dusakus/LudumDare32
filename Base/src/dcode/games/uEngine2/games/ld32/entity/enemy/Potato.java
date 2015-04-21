@@ -2,6 +2,7 @@ package dcode.games.uEngine2.games.ld32.entity.enemy;
 
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
+import dcode.games.uEngine2.games.ld32.LStData;
 import dcode.games.uEngine2.games.ld32.entity.IEntityLogic;
 import dcode.games.uEngine2.games.ld32.parts.Task_DelayedDamage;
 import dcode.games.uEngine2.games.ld32.world.WorldEntity;
@@ -41,7 +42,8 @@ public class Potato implements IEntityLogic {
 	}
 
 	private void tryAttack() {
-		StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 6, true, WE.getIWX() - 10, WE.getIWY() - 3, 20, 6));
+		StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 6, true, WE.getIWX() - 25, WE.getIWY() - 3, 50, 6));
+		LStData.SND_punch.play();
 	}
 
 	private void jump() {
@@ -133,8 +135,8 @@ public class Potato implements IEntityLogic {
 		private void checkPlayerClose() {
 			this.playerClose = numbarTools.checkBetween(
 					StData.currentGC.currentSC.sprites[2].getX(),
-					target.WE.getX() - 16,
-					target.WE.getX() + 16)
+					target.WE.getX() - 30,
+					target.WE.getX() + 30)
 					&&
 					numbarTools.checkBetween(
 							StData.currentGC.currentSC.sprites[2].getY(),

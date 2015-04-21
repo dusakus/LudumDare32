@@ -233,7 +233,7 @@ public class Pizza implements IEntityLogic {
 
 
 		public PizzaAttack(Pizza onion, int inRoomX, int inRoomY) {
-			this.onion = onion;
+			//this.onion = onion;
 			this.inRoomX = inRoomX;
 			this.inRoomY = inRoomY;
 			StData.currentGC.currentSC.sprites[117] = this;
@@ -248,7 +248,7 @@ public class Pizza implements IEntityLogic {
 		@Override
 		public void perform() {
 			ticksLeft--;
-			onion.WE.textureVariation = step;
+			//onion.WE.textureVariation = step;
 
 			if (ticksLeft > 10 && ticksLeft < 50) {
 				float r = 50 - ticksLeft;
@@ -262,6 +262,7 @@ public class Pizza implements IEntityLogic {
 				StData.currentGC.currentSC.sprites[117] = null;
 				step = 1;
 				onion.pai.imAttacking = false;
+				StData.currentGC.currentLT.registerBasic(new OnionAttack(onion, inRoomX, inRoomY));
 				StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(25, 1, true, inRoomX - 6, inRoomY - 199, 12, 200));
 			}
 		}
@@ -286,4 +287,76 @@ public class Pizza implements IEntityLogic {
 
 		}
 	}
+
+	private class OnionAttack extends Sprite implements ILogicTask {
+		int ticksLeft = 26;
+		//private Pizza onion;
+		private int inRoomX;
+		private int inRoomY;
+		private int step = 1;
+		private int dirMod = 0;
+
+
+		public OnionAttack(Pizza onion, int inRoomX, int inRoomY) {
+			//this.onion = onion;
+			this.inRoomX = inRoomX;
+			this.inRoomY = inRoomY;
+			StData.currentGC.currentSC.sprites[118] = this;
+			StData.currentGC.currentSC.sprites_front[118] = 118;
+		}
+
+		@Override
+		public boolean isReady() {
+			return true;
+		}
+
+		@Override
+		public void perform() {
+			ticksLeft--;
+			//onion.WE.textureVariation = step;
+			switch (ticksLeft) {
+				case 25:
+					step = 1;
+					LStData.SND_boom.play();
+					break;
+				case 1:
+					step++;
+					StData.currentGC.currentSC.sprites[118] = null;
+					step = 1;
+					break;
+			}
+
+			if (ticksLeft < 25 && ticksLeft > 9) {
+				step++;
+			}
+			if (ticksLeft < 25 && ticksLeft > 9) {
+				StData.currentGC.currentLT.registerBasic(new Task_DelayedDamage(150, 1, true, inRoomX - 30, inRoomY - 30, 64, 64));
+			}
+		}
+
+		@Override
+		public boolean doRepeat() {
+			return ticksLeft > 0;
+		}
+
+		@Override
+		public Image getCustomTexture() {
+			return null;
+		}
+
+		@Override
+		public boolean doCustomRender() {
+			return true;
+		}
+
+		@Override
+		public void customRender(Graphics2D G) {
+			if (ticksLeft > 25) {
+				G.drawImage(StData.resources.grf.getTexture("EnGRAE" + (step + dirMod)), inRoomX - LStData.renderOffsetX - 15, inRoomY - LStData.renderOffsetY - 28, null);
+			} else {
+				G.drawImage(StData.resources.grf.getTexture("EnGRAB" + (step + dirMod)), inRoomX - LStData.renderOffsetX - 31, inRoomY - LStData.renderOffsetY - 60, null);
+			}
+		}
+	}
+
 }

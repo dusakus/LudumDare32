@@ -121,7 +121,7 @@ public class WorldEntity extends Sprite {
 
 	private boolean checkCollisionAt(int x, int y) {
 		try {
-			boolean c = LStData.GL.getColisionAt(x, y, !canJumpNow);
+			boolean c = LStData.GL.getColisionAt(x, y, true);
 			errorCount = 0;
 			return c;
 		} catch (Exception e) {

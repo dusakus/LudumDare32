@@ -47,6 +47,10 @@ public class TexMan {
         G.fillRect(23, 2, 2, 7);
         G.fillRect(23, 11, 2, 2);
 
+        if (!StData.setup.debug) {
+            MISSINGTEX = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        }
+
         scaledTextureBuffer = new ScaledTexture[64];
         scaledSubTextureBuffer = new ScaledSubTexture[32];
 

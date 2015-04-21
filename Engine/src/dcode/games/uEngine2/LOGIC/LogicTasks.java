@@ -43,4 +43,7 @@ public class LogicTasks {
         tasks.add(task);
     }
 
+    public void clear() {
+        tasks.clear();
+    }
 }

@@ -13,21 +13,21 @@ public class LD32_INIT {
         gs.TPS_MSX = 0;
         gs.TPS_BG = 60;
 
-        gs.debug = true;
+        gs.debug = false;
         gs.width = 200;
         gs.height = 150;
         gs.scale = 4;
 
-        gs.spriteTableSize = 120;
-        gs.enableSpriteWrappers = true;
+        gs.spriteTableSize = 121;
+        gs.enableSpriteWrappers = false;
         gs.postProcCount = 1;
-        gs.spriteLayerSize = 120;
+        gs.spriteLayerSize = 121;
 
-        gs.soundEnabled = false;
+        gs.soundEnabled = true;
 
         gs.safeName = "ld32";
         gs.screenName = "LD32";
-        gs.windowTitle = " Untitled game for Ludum Dare 32 ";
+        gs.windowTitle = " FOOD FIGHT apocalypse   for Ludum Dare 32 ";
 
         PuGameBase gb = new PuGameBase();
 

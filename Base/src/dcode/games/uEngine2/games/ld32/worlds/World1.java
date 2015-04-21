@@ -4,9 +4,6 @@ import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.LStData;
 import dcode.games.uEngine2.games.ld32.entity.IEntityData;
-import dcode.games.uEngine2.games.ld32.entity.enemy.Grapes;
-import dcode.games.uEngine2.games.ld32.entity.enemy.Onion;
-import dcode.games.uEngine2.games.ld32.entity.enemy.Pizza;
 import dcode.games.uEngine2.games.ld32.entity.enemy.Potato;
 import dcode.games.uEngine2.games.ld32.world.GameWorld;
 import dcode.games.uEngine2.games.ld32.world.WorldEntity;
@@ -35,25 +32,35 @@ public class World1 extends PWorld {
 		wall.texKey = "WALL";
 
 
-		target.entities.add(new WorldEntity(new PotatoDATA(200, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(250, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(300, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(350, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(400, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(450, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(500, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(550, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(600, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(650, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(700, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(750, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(800, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(850, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(900, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(950, 100), new Potato(), 15, 30));
-		target.entities.add(new WorldEntity(new OnionDATA(1000, 100), new Onion(), 15, 30));
-		target.entities.add(new WorldEntity(new PotatoDATA(1050, 100), new Grapes(), 15, 26));
-		target.entities.add(new WorldEntity(new PotatoDATA(1050, 100), new Pizza(), 15, 34));
+		target.entities.add(new WorldEntity(new PotatoDATA(180, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(220, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(260, 276), new Potato(), 15, 30));
+
+		target.entities.add(new WorldEntity(new PotatoDATA(425, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(465, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(505, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(545, 276), new Potato(), 15, 30));
+
+		target.entities.add(new WorldEntity(new PotatoDATA(580, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(620, 276), new Potato(), 15, 30));
+
+		target.entities.add(new WorldEntity(new PotatoDATA(817, 270), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(857, 270), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(897, 270), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(937, 270), new Potato(), 15, 30));
+
+		target.entities.add(new WorldEntity(new PotatoDATA(732, 190), new Potato(), 15, 30));
+
+		target.entities.add(new WorldEntity(new PotatoDATA(1138, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1178, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1218, 276), new Potato(), 15, 30));
+
+		target.entities.add(new WorldEntity(new PotatoDATA(1591, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1651, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1711, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1771, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1831, 276), new Potato(), 15, 30));
+		target.entities.add(new WorldEntity(new PotatoDATA(1991, 276), new Potato(), 15, 30));
 		target.entities.add(wall);
 
 		target.wp.inRoomY = 250;
@@ -153,39 +160,6 @@ public class World1 extends PWorld {
 		@Override
 		public int getHealth() {
 			return Integer.MAX_VALUE;
-		}
-	}
-
-	private class OnionDATA implements IEntityData {
-		Point p;
-
-		public OnionDATA(int i, int i1) {
-			p = new Point(i, i1);
-		}
-
-		@Override
-		public int getType() {
-			return 0;
-		}
-
-		@Override
-		public Point getInitialLocation() {
-			return p;
-		}
-
-		@Override
-		public String getTextureId() {
-			return "EnONI";
-		}
-
-		@Override
-		public int getDepth() {
-			return 0;
-		}
-
-		@Override
-		public int getHealth() {
-			return 500;
 		}
 	}
 }

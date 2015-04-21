@@ -4,6 +4,7 @@ import dcode.games.uEngine2.BGTasks.PBGTask;
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBasicTexture;
 import dcode.games.uEngine2.BGTasks.internalTasks.LoadBitmapFont;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
+import dcode.games.uEngine2.SFX.tslib.TinySound;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.items.ItemList;
 import dcode.games.uEngine2.games.ld32.world.WorldPlayer;
@@ -48,14 +49,23 @@ public class MainLogic implements ILogicTask {
 						break;
 					case 1:
 						LOG.println("[INIT] Creating Logic objects", "D");
-						currentGC.currentLT.registerBasic(new MenuLogic());
-						currentGC.currentLT.registerBasic(new GameLogic());
+						StData.logicTasks.registerBasic(new MenuLogic());
+						StData.logicTasks.registerBasic(new GameLogic());
 						currentStatus += 8;
 						break;
 					case 9:
 						LOG.println("[INIT] Initializing registries", "D");
 						ItemList.fillList();
 						WorldList.fillList();
+						bgm = TinySound.loadMusic(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/msx/Poof.wav"));
+						boss = TinySound.loadMusic(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/msx/boss.wav"));
+						menu = TinySound.loadMusic(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/msx/Song.wav"));
+						LStData.SND_laser = TinySound.loadSound(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/sfx/laser.wav"));
+						LStData.SND_rlaser = TinySound.loadSound(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/sfx/rainbow_laser.wav"));
+						LStData.SND_punch = TinySound.loadSound(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/sfx/punch.wav"));
+						LStData.SND_shot = TinySound.loadSound(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/sfx/shot.wav"));
+						LStData.SND_item = TinySound.loadSound(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/sfx/item.wav"));
+						LStData.SND_boom = TinySound.loadSound(getClass().getResource("/dcode/games/uEngine2/games/ld32/res/sfx/boom.wav"));
 						currentStatus++;
 						break;
 					case 10:
@@ -75,6 +85,26 @@ public class MainLogic implements ILogicTask {
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/menu/arrowDown.png", "MARD"));
 
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("sprite/enemy/rbwframe.png", "EnONIR"));
+
+						StData.generalBGT.LPTasks.add(new LoadBasicTexture("Frames/credits.png", "CREDITS"));
+						StData.generalBGT.LPTasks.add(new LoadBasicTexture("Frames/gemover.png", "DEATH"));
+						StData.generalBGT.LPTasks.add(new LoadBasicTexture("Frames/PAUSE.png", "PAUSE"));
+						StData.generalBGT.LPTasks.add(new LoadBasicTexture("Frames/help.png", "HELP"));
+
+
+						LStData.menuBackground = new gifReader();
+						LStData.introseq = new gifReader();
+						LStData.menuBackground.read(getClass().getResourceAsStream("/dcode/games/uEngine2/games/ld32/res/gfx/Frames/menu.gif"));
+						LStData.introseq.read(getClass().getResourceAsStream("/dcode/games/uEngine2/games/ld32/res/gfx/Frames/entry.gif"));
+
+						for (int i = 1; i < 12; i++) {
+							StData.resources.grf.registerTexture(LStData.introseq.getFrame(i), "INTRO" + i);
+						}
+						LStData.introseq.read(getClass().getResourceAsStream("/dcode/games/uEngine2/games/ld32/res/gfx/Frames/outro.gif"));
+
+						for (int i = 1; i < 7; i++) {
+							StData.resources.grf.registerTexture(LStData.introseq.getFrame(i), "OUTRO" + i);
+						}
 
 						StData.generalBGT.LPTasks.add(new LoadBasicTexture("world/TESTWORLD.png", "WORLD"));
 

@@ -6,7 +6,7 @@ import dcode.games.uEngine2.StData;
  * Created by dusakus on 18.04.15.
  */
 public class WorldList {
-    public static PWorld[] worldlist = new PWorld[10];
+    public static PWorld[] worldlist = new PWorld[11];
 
     public static void fillList() {
         StData.LOG.println("Filling World list");
@@ -20,6 +20,7 @@ public class WorldList {
         worldlist[7] = new World12();
         worldlist[8] = new World13();
         worldlist[9] = new World14();
+        worldlist[10] = new World15();
     }
 
 }

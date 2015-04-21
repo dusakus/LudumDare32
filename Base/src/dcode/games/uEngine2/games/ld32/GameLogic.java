@@ -1,7 +1,9 @@
 package dcode.games.uEngine2.games.ld32;
 
+import dcode.games.uEngine2.BGTasks.PBGTask;
 import dcode.games.uEngine2.GFX.ScreenContent;
 import dcode.games.uEngine2.GFX.layers.ClearColorLayer;
+import dcode.games.uEngine2.GFX.layers.FillTextureLayer;
 import dcode.games.uEngine2.LOGIC.ILogicTask;
 import dcode.games.uEngine2.StData;
 import dcode.games.uEngine2.games.ld32.render.Layer_StatusOverlay;
@@ -29,6 +31,8 @@ public class GameLogic implements ILogicTask {
 	private ScreenContent inGameSC;
 	private GameWorld currentGameWorld;
 	private WorldPlayer player;
+	private int gearDelay = 10;
+	private int pdelay = 100;
 
 	@Override
 	public boolean isReady() {
@@ -41,6 +45,9 @@ public class GameLogic implements ILogicTask {
 
 
 			case 201:
+				if (StData.currentGC.currentSC.layers_Overlay.size() > 0) {
+					StData.gameFreeze = true;
+				}
 				updateWorldOffset();
 				currentGameWorld.tick();
 				inputTick();
@@ -48,12 +55,18 @@ public class GameLogic implements ILogicTask {
 				if (healthStat <= 0) {
 					currentStatus = 1201;
 					currentMode = MODE_MENU_MAIN;
-
+					bgm.stop();
 				}
+				break;
+			case 202:
+				StData.currentGC.currentSC.layers_Overlay.clear();
+				currentStatus = 201;
+				pdelay = 100;
 				break;
 			case 1:
 				LOG.println("[GL] Entering game_play environment");
 				GL = this;
+				bgm.play(true);
 				currentStatus++;
 				break;
 			case 2:
@@ -69,7 +82,7 @@ public class GameLogic implements ILogicTask {
 				inGameSC.layers_Background.add(new ClearColorLayer(new Color(24, 40, 84)));
 				inGameSC.layers_Background.add(new ParalaxBackground());
 				inGameSC.layers_Center.add(new Layer_WORLDDraw());
-				inGameSC.layers_Overlay.add(new Layer_StatusOverlay());
+				inGameSC.layers_Center.add(new Layer_StatusOverlay());
 				currentStatus++;
 				break;
 			case 13:
@@ -120,7 +133,21 @@ public class GameLogic implements ILogicTask {
 		if (InHandler.instance.isKeyPressed(KeyEvent.VK_RIGHT)) player.goRight();
 		if (InHandler.instance.isKeyPressed(KeyEvent.VK_UP)) player.goJump();
 		if (InHandler.instance.isKeyPressed(KeyEvent.VK_Z)) player.tryAttacking();
-		if (InHandler.instance.isKeyPressed_SHIFT()) {
+		if (InHandler.instance.isKeyPressed(KeyEvent.VK_ENTER)) {
+			LStData.currentStatus = 1202;
+			LStData.currentMode = MODE_MENU_MAIN;
+		}
+		if (InHandler.instance.isKeyPressed(KeyEvent.VK_P) && pdelay == 0) {
+			StData.currentGC.currentSC.layers_Overlay.add(new FillTextureLayer("PAUSE"));
+			StData.generalBGT.WaitingTasks.add(new continueWatcher());
+		}
+
+		if (InHandler.instance.isKeyPressed(KeyEvent.VK_X) && gearDelay == 0) {
+			if (player.getItemModifier() == "C") player.setItemModifier("M");
+			else player.setItemModifier("C");
+			gearDelay = 15;
+		}
+		if (InHandler.instance.isKeyPressed_SHIFT() && InHandler.instance.isKeyPressed_CONTROLL() && InHandler.instance.isKeyPressed_ALT()) {
 			//Debug tools
 			if (InHandler.instance.isKeyPressed(KeyEvent.VK_F5)) {
 				StData.LOG.println("[DebugTools] Reloading worldEntities, some entities might be missing");
@@ -143,6 +170,12 @@ public class GameLogic implements ILogicTask {
 				currentLevel++;
 				currentStatus = 109;
 			}
+		}
+		if (gearDelay > 0) {
+			gearDelay--;
+		}
+		if (pdelay > 0) {
+			pdelay--;
 		}
 
 	}
@@ -181,5 +214,45 @@ public class GameLogic implements ILogicTask {
 
 	public void killEntity(WorldEntity we) {
 		currentGameWorld.killEntity(we);
+	}
+
+	public void reset() {
+
+		player = null;
+		currentGameWorld = null;
+		inGameSC = null;
+		StData.currentGC.currentLT.clear();
+
+		LStData.healthStat = LStData.maxHealth;
+		LStData.ammoStat = LStData.maxAmmo;
+	}
+
+	private class continueWatcher extends PBGTask {
+
+		private int pdelay = 100;
+
+		public continueWatcher() {
+			this.TaskPriority = PRIORITY_HIGH;
+
+		}
+
+		@Override
+		public boolean isReady() {
+			return pdelay > -1;
+		}
+
+		@Override
+		public void perform() {
+
+			if (pdelay == 0) {
+				if (InHandler.instance.isKeyPressed(KeyEvent.VK_P)) {
+					StData.gameFreeze = false;
+					LStData.currentStatus = 202;
+					pdelay = -2;
+				}
+			} else {
+				pdelay--;
+			}
+		}
 	}
 }
