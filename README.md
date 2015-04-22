@@ -1,6 +1,12 @@
 # LudumDare32
 Repository for Ludum Dare 32 stuff
 
+final game is here:
+
+Java 6 jar: https://www.dropbox.com/s/7x2q6x2lwkvpq6w/FFApocalypse.jar?dl=0
+Windows: https://www.dropbox.com/s/aiclqrx9kbsnuai/FFApocalypse.exe?dl=0
+Linux: https://www.dropbox.com/s/vo0sta8mpqye62h/FFApocalypse.sh?dl=0
+
 License: DLoc v0.5 (except TinySound lib) :
 
 <---======[ D-LIC open code 0.5 ]======--->
